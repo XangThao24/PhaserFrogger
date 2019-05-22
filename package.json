@@ -4,7 +4,8 @@
   "description": "Frogger Game built with Phaser 3",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "webpack",
+    "start:dev": "webpack-dev-server"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,18 @@
   "bugs": {
     "url": "https://github.com/XangThao24/PhaserFrogger/issues"
   },
-  "homepage": "https://github.com/XangThao24/PhaserFrogger#readme"
+  "homepage": "https://github.com/XangThao24/PhaserFrogger#readme",
+  "dependencies": {
+    "phaser": "^3.17.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
+    "babel-loader": "^8.0.6",
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^3.2.0",
+    "webpack": "^4.32.1",
+    "webpack-cli": "^3.3.2",
+    "webpack-dev-server": "^3.4.1"
+  }
 }
