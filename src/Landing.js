@@ -14,6 +14,11 @@ class Landing extends Phaser.Scene {
     this.landing = this.add.image(800/2, 600/2, "landing")
     this.landing.displayWidth = 800;
     this.landing.displayHeight = 600;
+
+    this.input.on('pointerdown', () => {  
+			this.scene.stop('Landing')
+			this.scene.start('Game')
+		})
   }
 
 }
