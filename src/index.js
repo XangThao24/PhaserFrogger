@@ -7,6 +7,10 @@ const config = {
   type: Phaser.AUTO,
   width: 800,
   height: 600,
+  physics: {
+    default: 'arcade',
+    arcade: {}
+  },
   scene: [ Landing, Game, Score ]
 }
 const game = new Phaser.Game(config);
