@@ -18,6 +18,12 @@ module.exports = {
             options: { minimize: true }
           }
         ]
+      },
+      {
+        test: /\.(png|svg|jpg|gif)$/,
+        use: [
+          "file-loader"
+        ]
       }
     ]
   },

@@ -12,14 +12,21 @@ body {
   background-color: white;
 }
 
+#game {
+  max-width: 800px;
+  height: 600px;
+  width: 100%;
+
+}
+
 @media (max-width: 600px) {
   body {
     min-width: 0;
   }
-  
+
   canvas {
-    width: 550px !important;
-    height: 600px !important;
+    width: 100% !important;
+    height: 75% !important;
     margin: 0;
   }
 }

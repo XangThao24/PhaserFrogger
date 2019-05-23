@@ -1,4 +1,5 @@
 import Phaser from "phaser"
+import landing from "./assets/images/landing.png"
 
 class Landing extends Phaser.Scene {
 
@@ -7,7 +8,7 @@ class Landing extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image("landing", "src/assets/images/landing.png")
+    this.load.image("landing", landing)
   }
 
   create() {
