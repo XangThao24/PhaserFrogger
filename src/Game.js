@@ -4,7 +4,7 @@ import fireTruck from "./assets/images/fireTruck.png"
 import yellowCar from "./assets/images/yellowCar.png"
 import yellowBus from "./assets/images/yellowBus.png"
 import grass from "./assets/images/grass.jpg"
-import road from "./assets/images/road.jpg"
+import road from "./assets/images/street.png"
 import river from "./assets/images/river.gif"
 import whiteVan from "./assets/images/whiteVan.png"
 import spaceCar from "./assets/images/spaceCar.png"
@@ -115,7 +115,6 @@ class Game extends Phaser.Scene {
     genFrog()
 
     this.physics.add.overlap(frogs, logs1, function(frog, log) {
-      console.log(log)
       frog.setVelocityX(75)
     })
 
@@ -296,7 +295,7 @@ class Game extends Phaser.Scene {
       }
     }.bind(this));
 
-    gameState.livesLeft = this.add.text(400, 10, `Lives ${gameState.lives}`)
+    gameState.livesLeft = this.add.text(370, 10, `Lives ${gameState.lives}`)
 
   }
 
