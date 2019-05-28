@@ -295,6 +295,55 @@ class Game extends Phaser.Scene {
       }
     }.bind(this));
 
+    const platforms = this.physics.add.staticGroup();
+
+  platforms.create(-150, 300, 'road').setScale(.1, 2).refreshBody();
+
+  const platforms2 = this.physics.add.staticGroup();
+
+  platforms2.create(950, 300, 'road').setScale(.1, 2).refreshBody();
+
+  this.physics.add.collider(platforms, vehicles, function(plat, vehicle) {
+    vehicle.destroy()
+  }.bind(this))
+
+  this.physics.add.collider(platforms, vehicles2, function(plat, vehicle) {
+    vehicle.destroy()
+  }.bind(this))
+
+  this.physics.add.collider(platforms, vehicles3, function(plat, vehicle) {
+    vehicle.destroy()
+  }.bind(this))
+
+  this.physics.add.collider(platforms, vehicles4, function(plat, vehicle) {
+    vehicle.destroy()
+  }.bind(this))
+
+  this.physics.add.collider(platforms, vehicles5, function(plat, vehicle) {
+    vehicle.destroy()
+  }.bind(this))
+
+  this.physics.add.collider(platforms2, vehicles, function(plat, vehicle) {
+    vehicle.destroy()
+  }.bind(this))
+
+  this.physics.add.collider(platforms2, vehicles2, function(plat, vehicle) {
+    vehicle.destroy()
+  }.bind(this))
+
+  this.physics.add.collider(platforms2, vehicles3, function(plat, vehicle) {
+    vehicle.destroy()
+  }.bind(this))
+
+  this.physics.add.collider(platforms2, vehicles4, function(plat, vehicle) {
+    vehicle.destroy()
+  }.bind(this))
+
+  this.physics.add.collider(platforms2, vehicles5, function(plat, vehicle) {
+    vehicle.destroy()
+  }.bind(this))
+  
+
     gameState.livesLeft = this.add.text(370, 10, `Lives ${gameState.lives}`)
 
   }
