@@ -68,14 +68,6 @@ class Game extends Phaser.Scene {
     score.displayHeight =  carLogHeight
     score.displayWidth=800
 
-
-
-    gameState.redCar = this.physics.add.sprite(400,  13 * rowHeight + halfRowHeight, "purpleCar")
-    gameState.redCar.displayWidth=800*.1; 
-    gameState.redCar.displayHeight= carLogHeight;
-    gameState.redCar.setCollideWorldBounds(true)
-
-
     let text = this.add.text(50, 50, "testing")
     text.setInteractive()
     text.on("pointerdown", () => {
@@ -83,18 +75,68 @@ class Game extends Phaser.Scene {
 			this.scene.start('Landing')
     })
 
+    const frogs = this.physics.add.group();
+    function genFrog() {
+      gameState.frog = frogs.create(400, 13 * rowHeight + halfRowHeight, "purpleCar")
+      gameState.frog.displayWidth=800*.05; 
+      gameState.frog.displayHeight= carLogHeight;
+      gameState.frog.setCollideWorldBounds(true)
+    }
+
+    genFrog()
+
+    this.input.keyboard.on('keyup_LEFT', function (event) {
+      gameState.frog.x -= rowHeight
+    })
+    this.input.keyboard.on('keyup_RIGHT', function (event) {
+      gameState.frog.x += rowHeight
+    })
+
+    this.input.keyboard.on('keyup_DOWN', function (event) {
+      gameState.frog.y += rowHeight
+    })
+
+    this.input.keyboard.on('keyup_UP', function (event) {
+      gameState.frog.y -= rowHeight
+    })
+
+    const logs1 = this.physics.add.group();
+    function genLogs1() {
+      let logs = ["white", "policeCar", "purpleCar"]
+      let randomLog = Math.floor(Math.random() * 3)
+      let roadY1 = 6 * rowHeight + halfRowHeight
+      let log = logs1.create(10, roadY1, logs[randomLog])
+      log.displayWidth=800*.1
+      log.displayHeight = carLogHeight
+      log.setVelocityX(75)
+    }
+
+    genLogs1()
+    genFrog()
+
+    this.physics.add.overlap(frogs, logs1, function(frog, log) {
+      console.log(log)
+      frog.setVelocityX(75)
+    })
+
+
     const vehicles = this.physics.add.group();
   
-    function genItem1 () {
+    function genItem1 (init=10) {
       let cars = ["whiteVan", "policeCar", "purpleCar"]
       let randomCar = Math.floor(Math.random() * 3)
       let roadY1 = 8 * rowHeight + halfRowHeight
-      let vehicle = vehicles.create(10, roadY1, cars[randomCar])
+      let vehicle = vehicles.create(init, roadY1, cars[randomCar])
       vehicle.displayWidth=800*.1
       vehicle.displayHeight = carLogHeight
       vehicle.setVelocityX(75)
       
     }
+
+    genItem1(60)
+    genItem1(250)
+    genItem1(400)
+
 
     const bugGenLoop = this.time.addEvent({
       delay: 4000,
@@ -103,16 +145,13 @@ class Game extends Phaser.Scene {
       loop: true
     });
 
-    this.physics.add.collider(gameState.redCar, vehicles, function(redCar) {
-      redCar.destroy();
-      // delete gameState.redCar
+    this.physics.add.collider(frogs, vehicles, function(frog, vehicle) {
+      frog.destroy();
+      vehicle.destroy()
+      genFrog()
       gameState.lives -= 1
       gameState.livesLeft.setText(`Lives ${gameState.lives}`)
       
-      gameState.redCar = this.physics.add.sprite(400,  13 * rowHeight + halfRowHeight, "purpleCar")
-        gameState.redCar.displayWidth=800*.1; 
-        gameState.redCar.displayHeight= carLogHeight;
-        gameState.redCar.setCollideWorldBounds(true)
       if(gameState.lives === 0) {
         this.scene.stop('Game')
         this.scene.start('Landing')
@@ -140,16 +179,14 @@ class Game extends Phaser.Scene {
       loop: true
     });
 
-    this.physics.add.collider(gameState.redCar, vehicles2, function(redCar) {
-      redCar.destroy();
-      // delete gameState.redCar
+    this.physics.add.collider(frogs, vehicles2, function(frog, vehicle) {
+      frog.destroy();
+      vehicle.destroy()
+      genFrog()
       gameState.lives -= 1
-      if(gameState.lives > 0) {
-        gameState.redCar = this.physics.add.sprite(400,  13 * rowHeight + halfRowHeight, "purpleCar")
-        gameState.redCar.displayWidth=800*.1; 
-        gameState.redCar.displayHeight= carLogHeight;
-        gameState.redCar.setCollideWorldBounds(true)
-      } else {
+      gameState.livesLeft.setText(`Lives ${gameState.lives}`)
+      
+      if(gameState.lives === 0) {
         this.scene.stop('Game')
         this.scene.start('Landing')
         gameState.lives = 3
@@ -175,14 +212,13 @@ class Game extends Phaser.Scene {
       loop: true
     });
 
-    this.physics.add.collider(gameState.redCar, vehicles3, function(redCar) {
-      redCar.destroy();
-      // delete gameState.redCar
+    this.physics.add.collider(frogs, vehicles3, function(frog, vehicle) {
+      frog.destroy();
+      vehicle.destroy()
+      genFrog()
       gameState.lives -= 1
-      gameState.redCar = this.physics.add.sprite(400,  13 * rowHeight + halfRowHeight, "purpleCar")
-        gameState.redCar.displayWidth=800*.1; 
-        gameState.redCar.displayHeight= carLogHeight;
-        gameState.redCar.setCollideWorldBounds(true)
+      gameState.livesLeft.setText(`Lives ${gameState.lives}`)
+      
       if(gameState.lives === 0) {
         this.scene.stop('Game')
         this.scene.start('Landing')
@@ -211,16 +247,14 @@ class Game extends Phaser.Scene {
       loop: true
     });
 
-    this.physics.add.collider(gameState.redCar, vehicles4, function(redCar) {
-      redCar.destroy();
-      // delete gameState.redCar
+    this.physics.add.collider(frogs, vehicles4, function(frog, vehicle) {
+      frog.destroy();
+      vehicle.destroy()
+      genFrog()
       gameState.lives -= 1
-      if(gameState.lives > 0) {
-        gameState.redCar = this.physics.add.sprite(400,  13 * rowHeight + halfRowHeight, "purpleCar")
-        gameState.redCar.displayWidth=800*.1; 
-        gameState.redCar.displayHeight= carLogHeight;
-        gameState.redCar.setCollideWorldBounds(true)
-      } else {
+      gameState.livesLeft.setText(`Lives ${gameState.lives}`)
+      
+      if(gameState.lives === 0) {
         this.scene.stop('Game')
         this.scene.start('Landing')
         gameState.lives = 3
@@ -248,49 +282,25 @@ class Game extends Phaser.Scene {
       loop: true
     });
 
-    this.physics.add.collider(gameState.redCar, vehicles5, function(redCar) {
-      redCar.destroy();
-      // delete gameState.redCar
+    this.physics.add.collider(frogs, vehicles5, function(frog, vehicle) {
+      frog.destroy();
+      vehicle.destroy()
+      genFrog()
       gameState.lives -= 1
-      if(gameState.lives > 0) {
-        gameState.redCar = this.physics.add.sprite(400,  13 * rowHeight + halfRowHeight, "purpleCar")
-        gameState.redCar.displayWidth=800*.1; 
-        gameState.redCar.displayHeight= carLogHeight;
-        gameState.redCar.setCollideWorldBounds(true)
-      } else {
+      gameState.livesLeft.setText(`Lives ${gameState.lives}`)
+      
+      if(gameState.lives === 0) {
         this.scene.stop('Game')
         this.scene.start('Landing')
         gameState.lives = 3
       }
     }.bind(this));
 
-    this.input.keyboard.on('keyup_LEFT', function (event) {
-      gameState.redCar.x -= rowHeight
-    })
-    this.input.keyboard.on('keyup_RIGHT', function (event) {
-      gameState.redCar.x += rowHeight
-    })
-
-    this.input.keyboard.on('keyup_DOWN', function (event) {
-      gameState.redCar.y += rowHeight
-    })
-
-    this.input.keyboard.on('keyup_UP', function (event) {
-      gameState.redCar.y -= rowHeight
-    })
-
     gameState.livesLeft = this.add.text(400, 10, `Lives ${gameState.lives}`)
 
   }
 
   update() {
-    
-
-    // if(gameState.redCar && gameState.redCar.x <= 100) {
-    //   gameState.redCar.setVelocityX(100)
-    //   // gameState.redCar.destroy()
-      // delete gameState.redCar
-    // }
     
   }
 }

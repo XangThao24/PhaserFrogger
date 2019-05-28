@@ -18,7 +18,7 @@ class Landing extends Phaser.Scene {
 
     this.input.on('pointerdown', () => {  
 			this.scene.stop('Landing')
-			this.scene.start('Game')
+      this.scene.start('Game')
 		})
   }
 

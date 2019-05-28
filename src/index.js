@@ -2,6 +2,7 @@ import Phaser from "phaser";
 import Landing from "./Landing";
 import Game from "./Game"
 import Score from "./Score"
+import "./css/main.css"
 
 const config = {
   type: Phaser.AUTO,
