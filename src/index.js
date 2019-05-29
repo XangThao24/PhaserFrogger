@@ -4,10 +4,10 @@ import Game from "./Game"
 import Score from "./Score"
 import "./css/main.css"
 
-var canvas = document.getElementById("game");
-// var canvasContext = canvas.getContext("2d");
-canvas.width = 800;
-canvas.height = 600;
+// var canvas = document.getElementById("game");
+// // var canvasContext = canvas.getContext("2d");
+// canvas.width = 800;
+// canvas.height = 600;
 
 const config = {
   type: Phaser.AUTO,
@@ -18,6 +18,6 @@ const config = {
     default: 'arcade',
     arcade: {}
   },
-  scene: [ Landing, Game, Score ]
+  scene: [  Game, Landing, Score ]
 }
 const game = new Phaser.Game(config);

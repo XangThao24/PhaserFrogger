@@ -14,6 +14,10 @@ import redSport from "./assets/images/redSport.png"
 import redCar from "./assets/images/redCar.png"
 import greenTruck from "./assets/images/greenTruck.png"
 import log from "./assets/images/log.png"
+import playingSound from "./assets/sounds/playingSong.mp3"
+import frogHopSound from "./assets/sounds/sound-frogger-hop.wav"
+import frogSquashSound from "./assets/sounds/sound-frogger-squash.wav"
+import frogSplashSound from "./assets/sounds/sound-frogger-plunk.wav"
 
 const gameState = {
   lives: 3
@@ -40,9 +44,13 @@ class Game extends Phaser.Scene {
     this.load.image("redSport", redSport)
     this.load.image("greenTruck", greenTruck)
     this.load.image("log", log)
+    this.load.audio("playingSound", playingSound)
+    this.load.audio("frogHopSound", frogHopSound)
+    this.load.audio("frogSplashSound", frogSplashSound)
+    this.load.audio("frogSquashSound", frogSquashSound)
   }
   create() {
-    const rowHeight = 42.9;
+    const rowHeight = 42.857;
     const halfRowHeight = rowHeight/2;
     const carLogHeight = 600*.065
 
@@ -50,9 +58,16 @@ class Game extends Phaser.Scene {
     road.displayHeight =  rowHeight * 5
     road.displayWidth=800
 
-    let river = this.add.image(400, 4 * rowHeight + halfRowHeight, "river")
-    river.displayHeight =  rowHeight * 5
-    river.displayWidth=800
+    gameState.playingSound = this.sound.add("playingSound")
+    gameState.playingSound.play()
+
+    gameState.frogHopSound = this.sound.add("frogHopSound")
+
+    gameState.frogSplashSound = this.sound.add("frogSplashSound")
+    gameState.frogSquashSound = this.sound.add("frogSquashSound")
+
+    const river = this.physics.add.staticGroup()
+    river.create(400, 4 * rowHeight + halfRowHeight, 'river').setScale(1.2, .28).refreshBody()
 
     let grass = this.add.image(400, 13 * rowHeight + halfRowHeight, "grass")
     grass.displayHeight =  carLogHeight
@@ -70,39 +85,46 @@ class Game extends Phaser.Scene {
     score.displayHeight =  carLogHeight
     score.displayWidth=800
 
+    var that = this;
+    console.log(that)
+
     let text = this.add.text(50, 50, "testing")
     text.setInteractive()
     text.on("pointerdown", () => {
+      gameState.playingSound.stop()
       this.scene.stop('Game')
 			this.scene.start('Landing')
     })
-
     const frogs = this.physics.add.group();
     function genFrog() {
       gameState.frog = frogs.create(400, 13 * rowHeight + halfRowHeight, "purpleCar")
       gameState.frog.displayWidth=800*.05; 
       gameState.frog.displayHeight= carLogHeight;
       gameState.frog.setDepth(3)
-      // gameState.frog.setVelocityX(10)
       gameState.frog.setCollideWorldBounds(true)
     }
-
     genFrog()
 
+    
     this.input.keyboard.on('keyup_LEFT', function (event) {
-      gameState.frog.x -= rowHeight
+      gameState.frog.x -= rowHeight - 10
+      gameState.frogHopSound.play()
     })
     this.input.keyboard.on('keyup_RIGHT', function (event) {
-      gameState.frog.x += rowHeight
+      gameState.frog.x += rowHeight - 10
+      gameState.frogHopSound.play()
     })
 
     this.input.keyboard.on('keyup_DOWN', function (event) {
       gameState.frog.y += rowHeight
+      gameState.frogHopSound.play()
     })
 
     this.input.keyboard.on('keyup_UP', function (event) {
       gameState.frog.y -= rowHeight
+      gameState.frogHopSound.play()
     })
+   
 
     const logs1 = this.physics.add.group();
     function genLogs1() {
@@ -194,45 +216,48 @@ class Game extends Phaser.Scene {
 
     this.physics.add.collider(frogs, logs1, function(frog, log) {
       if(frog.x > log.x ) {
-        frog.x = log.x + 19
+        //frog.x = log.x + 19
+        frog.x = log.x + 10
+        frog.y = log.y
       } else {
-        frog.x = log.x - 19
+        frog.x = log.x - 10
+        frog.y = log.y
       }
     
     });
 
     this.physics.add.collider(frogs, logs2, function(frog, log) {
       if(frog.x > log.x ) {
-        frog.x = log.x + 19
+        frog.x = log.x + 10
       } else {
-        frog.x = log.x - 19
+        frog.x = log.x - 10
       }
     
     });
 
     this.physics.add.collider(frogs, logs3, function(frog, log) {
       if(frog.x > log.x ) {
-        frog.x = log.x + 19
+        frog.x = log.x + 10
       } else {
-        frog.x = log.x - 19
+        frog.x = log.x - 10
       }
     
     });
 
     this.physics.add.collider(frogs, logs4, function(frog, log) {
       if(frog.x > log.x ) {
-        frog.x = log.x + 19
+        frog.x = log.x + 10
       } else {
-        frog.x = log.x - 19
+        frog.x = log.x - 10
       }
     
     });
 
     this.physics.add.collider(frogs, logs5, function(frog, log) {
       if(frog.x > log.x ) {
-        frog.x = log.x + 19
+        frog.x = log.x + 10
       } else {
-        frog.x = log.x - 19
+        frog.x = log.x - 10
       }
     
     });
@@ -263,6 +288,7 @@ class Game extends Phaser.Scene {
     });
 
     this.physics.add.collider(frogs, vehicles, function(frog, vehicle) {
+      gameState.frogSquashSound.play()
       frog.destroy();
       vehicle.destroy()
       genFrog()
@@ -270,6 +296,7 @@ class Game extends Phaser.Scene {
       gameState.livesLeft.setText(`Lives ${gameState.lives}`)
       
       if(gameState.lives === 0) {
+        gameState.playingSound.stop()
         this.scene.stop('Game')
         this.scene.start('Landing')
         gameState.lives = 3
@@ -297,6 +324,7 @@ class Game extends Phaser.Scene {
     });
 
     this.physics.add.collider(frogs, vehicles2, function(frog, vehicle) {
+      gameState.frogSquashSound.play()
       frog.destroy();
       vehicle.destroy()
       genFrog()
@@ -304,6 +332,7 @@ class Game extends Phaser.Scene {
       gameState.livesLeft.setText(`Lives ${gameState.lives}`)
       
       if(gameState.lives === 0) {
+        gameState.playingSound.stop()
         this.scene.stop('Game')
         this.scene.start('Landing')
         gameState.lives = 3
@@ -330,6 +359,7 @@ class Game extends Phaser.Scene {
     });
 
     this.physics.add.collider(frogs, vehicles3, function(frog, vehicle) {
+      gameState.frogSquashSound.play()
       frog.destroy();
       vehicle.destroy()
       genFrog()
@@ -337,6 +367,7 @@ class Game extends Phaser.Scene {
       gameState.livesLeft.setText(`Lives ${gameState.lives}`)
       
       if(gameState.lives === 0) {
+        gameState.playingSound.stop()
         this.scene.stop('Game')
         this.scene.start('Landing')
         gameState.lives = 3
@@ -365,6 +396,7 @@ class Game extends Phaser.Scene {
     });
 
     this.physics.add.collider(frogs, vehicles4, function(frog, vehicle) {
+      gameState.frogSquashSound.play()
       frog.destroy();
       vehicle.destroy()
       genFrog()
@@ -372,6 +404,7 @@ class Game extends Phaser.Scene {
       gameState.livesLeft.setText(`Lives ${gameState.lives}`)
       
       if(gameState.lives === 0) {
+        gameState.playingSound.stop()
         this.scene.stop('Game')
         this.scene.start('Landing')
         gameState.lives = 3
@@ -400,6 +433,7 @@ class Game extends Phaser.Scene {
     });
 
     this.physics.add.collider(frogs, vehicles5, function(frog, vehicle) {
+      gameState.frogSquashSound.play()
       frog.destroy();
       vehicle.destroy()
       genFrog()
@@ -407,6 +441,7 @@ class Game extends Phaser.Scene {
       gameState.livesLeft.setText(`Lives ${gameState.lives}`)
       
       if(gameState.lives === 0) {
+        gameState.playingSound.stop()
         this.scene.stop('Game')
         this.scene.start('Landing')
         gameState.lives = 3
@@ -501,11 +536,27 @@ class Game extends Phaser.Scene {
     log.destroy()
   }.bind(this))
 
+  this.physics.add.collider(frogs, river, function(frog, river) {
+    // this.physics.add.collider(frogs, logs1, function(frog, log) {
+    //   console.log("land on log")
+    // })
+    // frog.destroy()
+    // genFrog()
+    //   gameState.lives -= 1
+    //   gameState.livesLeft.setText(`Lives ${gameState.lives}`)
+      
+    //   if(gameState.lives === 0) {
+    //     this.scene.stop('Game')
+    //     this.scene.start('Landing')
+    //     gameState.lives = 3
+    //   }
+  }.bind(this))
+
     gameState.livesLeft = this.add.text(370, 10, `Lives ${gameState.lives}`)
 
   }
   update() {
-    
+
   }
 }
 

@@ -1,5 +1,8 @@
 import Phaser from "phaser"
 import landing from "./assets/images/landing.png"
+import landingSound from "./assets/sounds/LandingSound.mp3"
+
+const gameState = {}
 
 class Landing extends Phaser.Scene {
 
@@ -9,15 +12,18 @@ class Landing extends Phaser.Scene {
 
   preload() {
     this.load.image("landing", landing)
+    this.load.audio("landingSound", landingSound)
   }
-
   create() {
     this.landing = this.add.image(800/2, 600/2, "landing")
     this.landing.displayWidth = 800;
     this.landing.displayHeight = 600;
+    gameState.sound = this.sound.add("landingSound")
+    gameState.sound.play()
 
     this.input.on('pointerdown', () => {  
-			this.scene.stop('Landing')
+      gameState.sound.stop()
+      this.scene.stop('Landing')
       this.scene.start('Game')
 		})
   }

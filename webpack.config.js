@@ -1,5 +1,7 @@
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const webpack = require('webpack');
+const path = require("path")
+const SRC = path.resolve(__dirname, 'src/assets');
 
 module.exports = {
   module: {
@@ -20,12 +22,17 @@ module.exports = {
           }
         ]
       },
+      // {
+      //   test: /\.(png|svg|jpg|gif)$/,
+      //   use: [
+      //     "file-loader"
+      //   ]
+      // },
       {
-        test: /\.(png|svg|jpg|gif)$/,
-        use: [
-          "file-loader"
-        ]
-      },
+        test: /\.(jpe?g|png|gif|mp3|wav)$/i,
+        include: SRC,
+        loaders: ['file-loader']
+    },
       {
         test: /\.css$/,
         use: [ 
