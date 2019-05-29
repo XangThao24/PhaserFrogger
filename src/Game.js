@@ -13,6 +13,7 @@ import policeCar from "./assets/images/policeCar.png"
 import redSport from "./assets/images/redSport.png"
 import redCar from "./assets/images/redCar.png"
 import greenTruck from "./assets/images/greenTruck.png"
+import log from "./assets/images/log.png"
 
 const gameState = {
   lives: 3
@@ -38,6 +39,7 @@ class Game extends Phaser.Scene {
     this.load.image("redCar", redCar)
     this.load.image("redSport", redSport)
     this.load.image("greenTruck", greenTruck)
+    this.load.image("log", log)
   }
   create() {
     const rowHeight = 42.9;
@@ -80,6 +82,8 @@ class Game extends Phaser.Scene {
       gameState.frog = frogs.create(400, 13 * rowHeight + halfRowHeight, "purpleCar")
       gameState.frog.displayWidth=800*.05; 
       gameState.frog.displayHeight= carLogHeight;
+      gameState.frog.setDepth(3)
+      // gameState.frog.setVelocityX(10)
       gameState.frog.setCollideWorldBounds(true)
     }
 
@@ -102,22 +106,136 @@ class Game extends Phaser.Scene {
 
     const logs1 = this.physics.add.group();
     function genLogs1() {
-      let logs = ["white", "policeCar", "purpleCar"]
-      let randomLog = Math.floor(Math.random() * 3)
       let roadY1 = 6 * rowHeight + halfRowHeight
-      let log = logs1.create(10, roadY1, logs[randomLog])
-      log.displayWidth=800*.1
-      log.displayHeight = carLogHeight
-      log.setVelocityX(75)
+      let log1 = logs1.create(10, roadY1, "log")
+      log1.displayWidth=800*.1
+      log1.displayHeight = carLogHeight
+      log1.setDepth(2)
+      log1.setVelocityX(75)
     }
+
+    const log1GenLoop = this.time.addEvent({
+      delay: 4000,
+      callback: genLogs1,
+      callbackScope: this,
+      loop: true
+    });
+
+    const logs2 = this.physics.add.group();
+    function genLogs2() {
+      let roadY1 = 5 * rowHeight + halfRowHeight
+      let log1 = logs2.create(800, roadY1, "log")
+      log1.displayWidth=800*.1
+      log1.displayHeight = carLogHeight
+      log1.setDepth(2)
+      log1.setVelocityX(-75)
+    }
+
+    const log1GenLoop2 = this.time.addEvent({
+      delay: 4000,
+      callback: genLogs2,
+      callbackScope: this,
+      loop: true
+    });
+
+    const logs3 = this.physics.add.group();
+    function genLogs3() {
+      let roadY1 = 4 * rowHeight + halfRowHeight
+      let log1 = logs3.create(10, roadY1, "log")
+      log1.displayWidth=800*.1
+      log1.displayHeight = carLogHeight
+      log1.setDepth(2)
+      log1.setVelocityX(75)
+    }
+
+    const log1GenLoop3 = this.time.addEvent({
+      delay: 4000,
+      callback: genLogs3,
+      callbackScope: this,
+      loop: true
+    });
+
+    const logs4 = this.physics.add.group();
+    function genLogs4() {
+      let roadY1 = 3 * rowHeight + halfRowHeight
+      let log1 = logs4.create(800, roadY1, "log")
+      log1.displayWidth=800*.1
+      log1.displayHeight = carLogHeight
+      log1.setDepth(2)
+      log1.setVelocityX(-75)
+    }
+
+    const log1GenLoop4 = this.time.addEvent({
+      delay: 4000,
+      callback: genLogs4,
+      callbackScope: this,
+      loop: true
+    });
+
+    const logs5 = this.physics.add.group();
+    function genLogs5() {
+      let roadY1 = 2 * rowHeight + halfRowHeight
+      let log1 = logs3.create(10, roadY1, "log")
+      log1.displayWidth=800*.1
+      log1.displayHeight = carLogHeight
+      log1.setDepth(2)
+      log1.setVelocityX(75)
+    }
+
+    const log1GenLoop5 = this.time.addEvent({
+      delay: 4000,
+      callback: genLogs5,
+      callbackScope: this,
+      loop: true
+    });
 
     genLogs1()
     genFrog()
 
-    this.physics.add.overlap(frogs, logs1, function(frog, log) {
-      frog.setVelocityX(75)
-    })
+    this.physics.add.collider(frogs, logs1, function(frog, log) {
+      if(frog.x > log.x ) {
+        frog.x = log.x + 19
+      } else {
+        frog.x = log.x - 19
+      }
+    
+    });
 
+    this.physics.add.collider(frogs, logs2, function(frog, log) {
+      if(frog.x > log.x ) {
+        frog.x = log.x + 19
+      } else {
+        frog.x = log.x - 19
+      }
+    
+    });
+
+    this.physics.add.collider(frogs, logs3, function(frog, log) {
+      if(frog.x > log.x ) {
+        frog.x = log.x + 19
+      } else {
+        frog.x = log.x - 19
+      }
+    
+    });
+
+    this.physics.add.collider(frogs, logs4, function(frog, log) {
+      if(frog.x > log.x ) {
+        frog.x = log.x + 19
+      } else {
+        frog.x = log.x - 19
+      }
+    
+    });
+
+    this.physics.add.collider(frogs, logs5, function(frog, log) {
+      if(frog.x > log.x ) {
+        frog.x = log.x + 19
+      } else {
+        frog.x = log.x - 19
+      }
+    
+    });
 
     const vehicles = this.physics.add.group();
   
@@ -342,12 +460,50 @@ class Game extends Phaser.Scene {
   this.physics.add.collider(platforms2, vehicles5, function(plat, vehicle) {
     vehicle.destroy()
   }.bind(this))
-  
+
+  this.physics.add.collider(logs1, platforms, function(log, platforms) {
+    log.destroy()
+  }.bind(this))
+
+  this.physics.add.collider(logs1, platforms2, function(log, platforms) {
+    log.destroy()
+  }.bind(this))
+
+  this.physics.add.collider(logs2, platforms, function(log, platforms) {
+    log.destroy()
+  }.bind(this))
+
+  this.physics.add.collider(logs2, platforms2, function(log, platforms) {
+    log.destroy()
+  }.bind(this))
+
+  this.physics.add.collider(logs3, platforms, function(log, platforms) {
+    log.destroy()
+  }.bind(this))
+
+  this.physics.add.collider(logs3, platforms2, function(log, platforms) {
+    log.destroy()
+  }.bind(this))
+
+  this.physics.add.collider(logs4, platforms, function(log, platforms) {
+    log.destroy()
+  }.bind(this))
+
+  this.physics.add.collider(logs4, platforms2, function(log, platforms) {
+    log.destroy()
+  }.bind(this))
+
+  this.physics.add.collider(logs5, platforms, function(log, platforms) {
+    log.destroy()
+  }.bind(this))
+
+  this.physics.add.collider(logs5, platforms2, function(log, platforms) {
+    log.destroy()
+  }.bind(this))
 
     gameState.livesLeft = this.add.text(370, 10, `Lives ${gameState.lives}`)
 
   }
-
   update() {
     
   }
