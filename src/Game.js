@@ -1,18 +1,26 @@
 import Phaser from "phaser"
-import purpleCar from "./assets/images/purpleCar.png"
-import fireTruck from "./assets/images/fireTruck.png"
-import yellowCar from "./assets/images/yellowCar.png"
-import yellowBus from "./assets/images/yellowBus.png"
+//left
+import purpleCar from "./assets/images/leftVehicles/purpleCar.png"
+import whiteVan from "./assets/images/leftVehicles/whiteVan.png"
+import spaceCar from "./assets/images/leftVehicles/spaceCar.png"
+import fireTruck from "./assets/images/leftVehicles/fireTruck.png"
+import policeCar from "./assets/images/leftVehicles/policeCar.png"
+import redSport from "./assets/images/leftVehicles/redSport.png"
+import redCar from "./assets/images/leftVehicles/redCar.png"
+
+// right
+import yellowCar from "./assets/images/rightVehicles/yellowCar.png"
+import yellowBus from "./assets/images/rightVehicles/yellowBus.png"
+import greySport from "./assets/images/rightVehicles/greySport.png"
+import blackSport from "./assets/images/rightVehicles/blackSport.png"
+import jet from "./assets/images/rightVehicles/jet.png"
+import tank from "./assets/images/rightVehicles/tank.png"
+import blueSport from "./assets/images/rightVehicles/blueSport.png"
+
+
 import grass from "./assets/images/grass.jpg"
 import road from "./assets/images/street.png"
 import river from "./assets/images/river.gif"
-import whiteVan from "./assets/images/whiteVan.png"
-import spaceCar from "./assets/images/spaceCar.png"
-import greySport from "./assets/images/greySport.png"
-import policeCar from "./assets/images/policeCar.png"
-import redSport from "./assets/images/redSport.png"
-import redCar from "./assets/images/redCar.png"
-import greenTruck from "./assets/images/greenTruck.png"
 import log from "./assets/images/log.png"
 import playingSound from "./assets/sounds/playingSong.mp3"
 import frogHopSound from "./assets/sounds/sound-frogger-hop.wav"
@@ -31,6 +39,10 @@ class Game extends Phaser.Scene {
   preload() {
     this.load.image("grass", grass)
     this.load.image("road", road)
+    this.load.image("blackSport", blackSport)
+    this.load.image("jet", jet)
+    this.load.image("tank", tank)
+    this.load.image("blueSport", blueSport)
     this.load.image("purpleCar", purpleCar)
     this.load.image("fireTruck", fireTruck)
     this.load.image("yellowCar", yellowCar)
@@ -42,7 +54,6 @@ class Game extends Phaser.Scene {
     this.load.image("policeCar", policeCar)
     this.load.image("redCar", redCar)
     this.load.image("redSport", redSport)
-    this.load.image("greenTruck", greenTruck)
     this.load.image("log", log)
     this.load.audio("playingSound", playingSound)
     this.load.audio("frogHopSound", frogHopSound)
@@ -85,9 +96,6 @@ class Game extends Phaser.Scene {
     score.displayHeight =  carLogHeight
     score.displayWidth=800
 
-    var that = this;
-    console.log(that)
-
     let text = this.add.text(50, 50, "testing")
     text.setInteractive()
     text.on("pointerdown", () => {
@@ -120,8 +128,20 @@ class Game extends Phaser.Scene {
       gameState.frogHopSound.play()
     })
 
-    this.input.keyboard.on('keyup_UP', function (event) {
+    this.input.keyboard.on('keyup_UP', (event) => {
       gameState.frog.y -= rowHeight
+      // console.log(gameState.frog.y)
+      // if(gameState.frog.y < 279) {
+      //   gameState.frog.destroy()
+      //   genFrog()
+      // }
+      let a = this.physics.add.collider(frogs, logs1, function() {
+        console.log("testing")
+      }, function () {
+        console.log("again")
+        return true
+      })
+      console.log(a)
       gameState.frogHopSound.play()
     })
    
@@ -265,8 +285,8 @@ class Game extends Phaser.Scene {
     const vehicles = this.physics.add.group();
   
     function genItem1 (init=10) {
-      let cars = ["whiteVan", "policeCar", "purpleCar"]
-      let randomCar = Math.floor(Math.random() * 3)
+      let cars = ["whiteVan", "policeCar", "purpleCar", "blueSport"]
+      let randomCar = Math.floor(Math.random() * 4)
       let roadY1 = 8 * rowHeight + halfRowHeight
       let vehicle = vehicles.create(init, roadY1, cars[randomCar])
       vehicle.displayWidth=800*.1
@@ -306,8 +326,8 @@ class Game extends Phaser.Scene {
     const vehicles2 = this.physics.add.group();
 
     function genItem2 () {
-      let cars = ["redCar", "spaceCar", "whiteVan"]
-      let randomCar = Math.floor(Math.random() * 3)
+      let cars = ["redCar", "spaceCar", "whiteVan", "blackSport"]
+      let randomCar = Math.floor(Math.random() * 4)
       let roadY1 = 9 * rowHeight + halfRowHeight
       let vehicle = vehicles2.create(800, roadY1, cars[randomCar])
       vehicle.displayWidth=800*.1
@@ -342,9 +362,10 @@ class Game extends Phaser.Scene {
     const vehicles3 = this.physics.add.group();
 
     function genItem3 () {
-
+      let cars = ["redCar", "spaceCar", "blueSport", "blackSport"]
+      let randomCar = Math.floor(Math.random() * 4)
       let roadY1 = 10 * rowHeight + halfRowHeight
-      let vehicle = vehicles3.create(10, roadY1, 'purpleCar')
+      let vehicle = vehicles3.create(10, roadY1, cars[randomCar])
       vehicle.displayWidth=800*.1
       vehicle.displayHeight = carLogHeight
       vehicle.setVelocityX(70)
@@ -377,8 +398,8 @@ class Game extends Phaser.Scene {
     const vehicles4 = this.physics.add.group();
 
     function genItem4 () {
-      let cars = ["yellowCar", "spaceCar", "greySport"]
-      let randomCar = Math.floor(Math.random() * 3)
+      let cars = ["yellowCar", "spaceCar", "greySport", "tank"]
+      let randomCar = Math.floor(Math.random() * 4)
 
       let roadY1 = 11 * rowHeight + halfRowHeight
       let vehicle = vehicles4.create(800, roadY1, cars[randomCar])
@@ -414,8 +435,8 @@ class Game extends Phaser.Scene {
     const vehicles5 = this.physics.add.group();
 
     function genItem5 () {
-      let cars = ["fireTruck", "yellowBus", "whiteVan"]
-      let randomCar = Math.floor(Math.random() * 3)
+      let cars = ["fireTruck", "yellowBus", "whiteVan", "jet"]
+      let randomCar = Math.floor(Math.random() * 4)
 
       let roadY1 = 12 * rowHeight + halfRowHeight
       let vehicle = vehicles5.create(10, roadY1, cars[randomCar])
@@ -536,21 +557,10 @@ class Game extends Phaser.Scene {
     log.destroy()
   }.bind(this))
 
-  this.physics.add.collider(frogs, river, function(frog, river) {
-    // this.physics.add.collider(frogs, logs1, function(frog, log) {
-    //   console.log("land on log")
-    // })
+  this.physics.add.collider(frogs, river, (frog, river) => {
     // frog.destroy()
     // genFrog()
-    //   gameState.lives -= 1
-    //   gameState.livesLeft.setText(`Lives ${gameState.lives}`)
-      
-    //   if(gameState.lives === 0) {
-    //     this.scene.stop('Game')
-    //     this.scene.start('Landing')
-    //     gameState.lives = 3
-    //   }
-  }.bind(this))
+  })
 
     gameState.livesLeft = this.add.text(370, 10, `Lives ${gameState.lives}`)
 
