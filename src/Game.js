@@ -17,11 +17,15 @@ import jet from "./assets/images/rightVehicles/jet.png"
 import tank from "./assets/images/rightVehicles/tank.png"
 import blueSport from "./assets/images/rightVehicles/blueSport.png"
 
-
+// background
 import grass from "./assets/images/grass.jpg"
 import road from "./assets/images/street.png"
 import river from "./assets/images/river.gif"
+
+//log
 import log from "./assets/images/log.png"
+
+// sound
 import playingSound from "./assets/sounds/playingSong.mp3"
 import frogHopSound from "./assets/sounds/sound-frogger-hop.wav"
 import frogSquashSound from "./assets/sounds/sound-frogger-squash.wav"
@@ -123,25 +127,55 @@ class Game extends Phaser.Scene {
       gameState.frogHopSound.play()
     })
 
-    this.input.keyboard.on('keyup_DOWN', function (event) {
+    this.input.keyboard.on('keyup_DOWN', (event) => {
       gameState.frog.y += rowHeight
+      gameState.currentX = gameState.frog.x
+      this.time.addEvent({
+        delay: 100,
+        callback: fadePicture,
+        callbackScope: this,
+        loop: false
+      })
+      function fadePicture() {
+        if(gameState.frog.y < 297 ) {
+          if(gameState.currentX === gameState.frog.x) {
+            console.log("in water")
+            gameState.frogSplashSound.play()
+            gameState.frog.destroy()
+            genFrog()
+          } else {
+            console.log("on log")
+            
+          }
+        }
+        
+      }
       gameState.frogHopSound.play()
     })
 
     this.input.keyboard.on('keyup_UP', (event) => {
       gameState.frog.y -= rowHeight
-      // console.log(gameState.frog.y)
-      // if(gameState.frog.y < 279) {
-      //   gameState.frog.destroy()
-      //   genFrog()
-      // }
-      let a = this.physics.add.collider(frogs, logs1, function() {
-        console.log("testing")
-      }, function () {
-        console.log("again")
-        return true
+      gameState.currentX = gameState.frog.x
+      this.time.addEvent({
+        delay: 100,
+        callback: fadePicture,
+        callbackScope: this,
+        loop: false
       })
-      console.log(a)
+      function fadePicture() {
+        if(gameState.frog.y < 297 ) {
+          if(gameState.currentX === gameState.frog.x) {
+            console.log("in water")
+            gameState.frogSplashSound.play()
+            gameState.frog.destroy()
+            genFrog()
+          } else {
+            console.log("on log")
+            
+          }
+        }
+        
+      }
       gameState.frogHopSound.play()
     })
    
@@ -557,17 +591,12 @@ class Game extends Phaser.Scene {
     log.destroy()
   }.bind(this))
 
-  this.physics.add.collider(frogs, river, (frog, river) => {
-    // frog.destroy()
-    // genFrog()
-  })
-
-    gameState.livesLeft = this.add.text(370, 10, `Lives ${gameState.lives}`)
+  gameState.livesLeft = this.add.text(370, 10, `Lives ${gameState.lives}`)
 
   }
   update() {
 
-  }
+  } 
 }
 
 export default Game
