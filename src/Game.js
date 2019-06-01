@@ -20,7 +20,8 @@ import blueSport from "./assets/images/rightVehicles/blueSport.png"
 // background
 import grass from "./assets/images/grass.jpg"
 import road from "./assets/images/street.png"
-import river from "./assets/images/river.gif"
+import river from "./assets/images/river2.jpg"
+import sidewalk from "./assets/images/sidewalk.jpg"
 
 //log
 import log from "./assets/images/log.png"
@@ -59,10 +60,12 @@ class Game extends Phaser.Scene {
     this.load.image("redCar", redCar)
     this.load.image("redSport", redSport)
     this.load.image("log", log)
+    this.load.image("sidewalk", sidewalk)
     this.load.audio("playingSound", playingSound)
     this.load.audio("frogHopSound", frogHopSound)
     this.load.audio("frogSplashSound", frogSplashSound)
     this.load.audio("frogSquashSound", frogSquashSound)
+    
   }
   create() {
     const rowHeight = 42.857;
@@ -82,22 +85,22 @@ class Game extends Phaser.Scene {
     gameState.frogSquashSound = this.sound.add("frogSquashSound")
 
     const river = this.physics.add.staticGroup()
-    river.create(400, 4 * rowHeight + halfRowHeight, 'river').setScale(1.2, .28).refreshBody()
+    river.create(400, 4 * rowHeight + halfRowHeight, 'river').setScale(1.2, .55).refreshBody()
 
-    let grass = this.add.image(400, 13 * rowHeight + halfRowHeight, "grass")
-    grass.displayHeight =  carLogHeight
+    let grass = this.add.image(400, 13 * rowHeight + halfRowHeight, "sidewalk")
+    grass.displayHeight =  carLogHeight + 5
     grass.displayWidth=800
 
-    let grass2 = this.add.image(400, 7 * rowHeight + halfRowHeight, "grass")
-    grass2.displayHeight =  carLogHeight
+    let grass2 = this.add.image(400, 7 * rowHeight + halfRowHeight, "sidewalk")
+    grass2.displayHeight =  carLogHeight + 5
     grass2.displayWidth=800
 
-    let nest = this.add.image(400, rowHeight + halfRowHeight, "grass")
-    nest.displayHeight =  carLogHeight
+    let nest = this.add.image(400, rowHeight + halfRowHeight, "sidewalk")
+    nest.displayHeight =  carLogHeight + 5
     nest.displayWidth=800
 
-    let score = this.add.image(400, halfRowHeight, "grass")
-    score.displayHeight =  carLogHeight
+    let score = this.add.image(400, halfRowHeight, "sidewalk")
+    score.displayHeight =  carLogHeight + 5
     score.displayWidth=800
 
     let text = this.add.text(50, 50, "testing")
@@ -115,7 +118,7 @@ class Game extends Phaser.Scene {
       gameState.frog.setDepth(3)
       gameState.frog.setCollideWorldBounds(true)
     }
-    genFrog()
+    // genFrog()
 
     
     this.input.keyboard.on('keyup_LEFT', function (event) {
@@ -131,7 +134,7 @@ class Game extends Phaser.Scene {
       gameState.frog.y += rowHeight
       gameState.currentX = gameState.frog.x
       this.time.addEvent({
-        delay: 100,
+        delay: 30,
         callback: fadePicture,
         callbackScope: this,
         loop: false
@@ -157,7 +160,7 @@ class Game extends Phaser.Scene {
       gameState.frog.y -= rowHeight
       gameState.currentX = gameState.frog.x
       this.time.addEvent({
-        delay: 100,
+        delay: 30,
         callback: fadePicture,
         callbackScope: this,
         loop: false
@@ -271,10 +274,10 @@ class Game extends Phaser.Scene {
     this.physics.add.collider(frogs, logs1, function(frog, log) {
       if(frog.x > log.x ) {
         //frog.x = log.x + 19
-        frog.x = log.x + 10
+        frog.x = log.x + 19
         frog.y = log.y
       } else {
-        frog.x = log.x - 10
+        frog.x = log.x - 19
         frog.y = log.y
       }
     
@@ -282,36 +285,36 @@ class Game extends Phaser.Scene {
 
     this.physics.add.collider(frogs, logs2, function(frog, log) {
       if(frog.x > log.x ) {
-        frog.x = log.x + 10
+        frog.x = log.x + 19
       } else {
-        frog.x = log.x - 10
+        frog.x = log.x - 19
       }
     
     });
 
     this.physics.add.collider(frogs, logs3, function(frog, log) {
       if(frog.x > log.x ) {
-        frog.x = log.x + 10
+        frog.x = log.x + 19
       } else {
-        frog.x = log.x - 10
+        frog.x = log.x - 19
       }
     
     });
 
     this.physics.add.collider(frogs, logs4, function(frog, log) {
       if(frog.x > log.x ) {
-        frog.x = log.x + 10
+        frog.x = log.x + 19
       } else {
-        frog.x = log.x - 10
+        frog.x = log.x - 19
       }
     
     });
 
     this.physics.add.collider(frogs, logs5, function(frog, log) {
       if(frog.x > log.x ) {
-        frog.x = log.x + 10
+        frog.x = log.x + 19
       } else {
-        frog.x = log.x - 10
+        frog.x = log.x - 19
       }
     
     });
