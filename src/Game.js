@@ -22,6 +22,8 @@ import grass from "./assets/images/grass.jpg"
 import road from "./assets/images/street.png"
 import river from "./assets/images/river2.jpg"
 import sidewalk from "./assets/images/sidewalk.jpg"
+import scoreBg from "./assets/images/scoreBg.jpg"
+import candy from "./assets/images/candy.png"
 
 //log
 import log from "./assets/images/log.png"
@@ -31,9 +33,13 @@ import playingSound from "./assets/sounds/playingSong.mp3"
 import frogHopSound from "./assets/sounds/sound-frogger-hop.wav"
 import frogSquashSound from "./assets/sounds/sound-frogger-squash.wav"
 import frogSplashSound from "./assets/sounds/sound-frogger-plunk.wav"
+import landSafe from "./assets/sounds/landSafe.wav"
 
 const gameState = {
-  lives: 3
+  lives: 3,
+  score: 0,
+  level: 1,
+  candies: 0
 }
 
 class Game extends Phaser.Scene {
@@ -61,10 +67,13 @@ class Game extends Phaser.Scene {
     this.load.image("redSport", redSport)
     this.load.image("log", log)
     this.load.image("sidewalk", sidewalk)
+    this.load.image("scoreBg", scoreBg)
+    this.load.image("candy", candy)
     this.load.audio("playingSound", playingSound)
     this.load.audio("frogHopSound", frogHopSound)
     this.load.audio("frogSplashSound", frogSplashSound)
     this.load.audio("frogSquashSound", frogSquashSound)
+    this.load.audio("landSafe", landSafe)
     
   }
   create() {
@@ -83,6 +92,7 @@ class Game extends Phaser.Scene {
 
     gameState.frogSplashSound = this.sound.add("frogSplashSound")
     gameState.frogSquashSound = this.sound.add("frogSquashSound")
+    gameState.landSafe = this.sound.add("landSafe")
 
     const river = this.physics.add.staticGroup()
     river.create(400, 4 * rowHeight + halfRowHeight, 'river').setScale(1.2, .55).refreshBody()
@@ -99,17 +109,28 @@ class Game extends Phaser.Scene {
     nest.displayHeight =  carLogHeight + 5
     nest.displayWidth=800
 
-    let score = this.add.image(400, halfRowHeight, "sidewalk")
+    let score = this.add.image(400, halfRowHeight, "scoreBg")
     score.displayHeight =  carLogHeight + 5
     score.displayWidth=800
+    
+    const candies = this.physics.add.group()
+    function genCandy(xPos) {
+      let roadY1 = rowHeight + halfRowHeight 
+      let candy = candies.create(xPos, roadY1, "candy")
+      candy.displayWidth=800*.1
+      candy.displayHeight = carLogHeight
+      candy.setDepth(2)
+    }
 
-    let text = this.add.text(50, 50, "testing")
-    text.setInteractive()
-    text.on("pointerdown", () => {
-      gameState.playingSound.stop()
-      this.scene.stop('Game')
-			this.scene.start('Landing')
-    })
+    function startCandy() {
+      genCandy(200)
+      genCandy(400)
+      genCandy(600)
+    }
+
+    startCandy()
+    
+
     const frogs = this.physics.add.group();
     function genFrog() {
       gameState.frog = frogs.create(400, 13 * rowHeight + halfRowHeight, "purpleCar")
@@ -118,8 +139,6 @@ class Game extends Phaser.Scene {
       gameState.frog.setDepth(3)
       gameState.frog.setCollideWorldBounds(true)
     }
-    // genFrog()
-
     
     this.input.keyboard.on('keyup_LEFT', function (event) {
       gameState.frog.x -= rowHeight - 10
@@ -131,8 +150,8 @@ class Game extends Phaser.Scene {
     })
 
     this.input.keyboard.on('keyup_DOWN', (event) => {
-      gameState.frog.y += rowHeight
-      gameState.currentX = gameState.frog.x
+      gameState.frog.y += rowHeight + 0.00001
+      gameState.currentX = gameState.frog.x 
       this.time.addEvent({
         delay: 30,
         callback: fadePicture,
@@ -145,6 +164,8 @@ class Game extends Phaser.Scene {
             console.log("in water")
             gameState.frogSplashSound.play()
             gameState.frog.destroy()
+            gameState.lives -= 1
+            gameState.livesLeft.setText(`Lives ${gameState.lives}`)
             genFrog()
           } else {
             console.log("on log")
@@ -157,8 +178,8 @@ class Game extends Phaser.Scene {
     })
 
     this.input.keyboard.on('keyup_UP', (event) => {
-      gameState.frog.y -= rowHeight
-      gameState.currentX = gameState.frog.x
+      gameState.frog.y -= rowHeight + 0.00001
+      gameState.currentX = gameState.frog.x 
       this.time.addEvent({
         delay: 30,
         callback: fadePicture,
@@ -171,6 +192,8 @@ class Game extends Phaser.Scene {
             console.log("in water")
             gameState.frogSplashSound.play()
             gameState.frog.destroy()
+            gameState.lives -= 1
+            gameState.livesLeft.setText(`Lives ${gameState.lives}`)
             genFrog()
           } else {
             console.log("on log")
@@ -514,6 +537,22 @@ class Game extends Phaser.Scene {
 
   platforms2.create(950, 300, 'road').setScale(.1, 2).refreshBody();
 
+  this.physics.add.collider(frogs, candies, function(frog, candy) {
+    frog.destroy()
+    candy.destroy()
+    genFrog()
+    gameState.candies ++
+    gameState.score += 15
+    gameState.landSafe.play()
+    gameState.displayScore.setText(`Score: ${gameState.score}`)
+    if(gameState.candies === 3) {
+      gameState.level ++
+      gameState.displayLevel.setText(`Level: ${gameState.level}`)
+      gameState.candies = 0
+      startCandy()
+    }
+  })
+
   this.physics.add.collider(platforms, vehicles, function(plat, vehicle) {
     vehicle.destroy()
   }.bind(this))
@@ -594,7 +633,9 @@ class Game extends Phaser.Scene {
     log.destroy()
   }.bind(this))
 
-  gameState.livesLeft = this.add.text(370, 10, `Lives ${gameState.lives}`)
+  gameState.livesLeft = this.add.text(370, 10, `Lives: ${gameState.lives}`)
+  gameState.displayLevel = this.add.text(200, 10, `Level: ${gameState.level}`)
+  gameState.displayScore = this.add.text(550, 10, `Score: ${gameState.score}`)
 
   }
   update() {
