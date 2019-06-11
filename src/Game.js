@@ -25,6 +25,9 @@ import sidewalk from "./assets/images/sidewalk.jpg"
 import scoreBg from "./assets/images/scoreBg.jpg"
 import candy from "./assets/images/candy.png"
 
+// frog
+import frog from "./assets/images/froger-sprite.png"
+
 //log
 import log from "./assets/images/log.png"
 
@@ -34,12 +37,14 @@ import frogHopSound from "./assets/sounds/sound-frogger-hop.wav"
 import frogSquashSound from "./assets/sounds/sound-frogger-squash.wav"
 import frogSplashSound from "./assets/sounds/sound-frogger-plunk.wav"
 import landSafe from "./assets/sounds/landSafe.wav"
+import timeRunningOut from "./assets/sounds/sound-frogger-time.wav"
 
 const gameState = {
   lives: 3,
   score: 0,
   level: 1,
-  candies: 0
+  candies: 0,
+  time: 30
 }
 
 const leftVehicles = ["fireTruck", "whiteVan", "policeCar", "purpleCar", "redCar", "redSport", "spaceCar", "blackSport" ]
@@ -72,11 +77,14 @@ class Game extends Phaser.Scene {
     this.load.image("sidewalk", sidewalk)
     this.load.image("scoreBg", scoreBg)
     this.load.image("candy", candy)
+    this.load.spritesheet('frog', frog, { frameWidth: 40, frameHeight: 90 });
+  
     this.load.audio("playingSound", playingSound)
     this.load.audio("frogHopSound", frogHopSound)
     this.load.audio("frogSplashSound", frogSplashSound)
     this.load.audio("frogSquashSound", frogSquashSound)
     this.load.audio("landSafe", landSafe)
+    this.load.audio("timeRunningOut", timeRunningOut)
     
   }
   create() {
@@ -92,7 +100,7 @@ class Game extends Phaser.Scene {
     gameState.playingSound.play()
 
     gameState.frogHopSound = this.sound.add("frogHopSound")
-
+    gameState.timeRunningOut = this.sound.add("timeRunningOut")
     gameState.frogSplashSound = this.sound.add("frogSplashSound")
     gameState.frogSquashSound = this.sound.add("frogSquashSound")
     gameState.landSafe = this.sound.add("landSafe")
@@ -138,6 +146,8 @@ class Game extends Phaser.Scene {
     }
 
     startCandy()
+
+    
     
 
     const frogs = this.physics.add.group();
@@ -687,6 +697,7 @@ class Game extends Phaser.Scene {
     frog.destroy()
     candy.destroy()
     genFrog()
+    gameState.time += 15
     gameState.candies ++
     gameState.score += 15
     gameState.landSafe.play()
@@ -779,9 +790,40 @@ class Game extends Phaser.Scene {
     log.destroy()
   }.bind(this))
 
-  gameState.livesLeft = this.add.text(370, 10, `Lives: ${gameState.lives}`)
-  gameState.displayLevel = this.add.text(200, 10, `Level: ${gameState.level}`)
-  gameState.displayScore = this.add.text(550, 10, `Score: ${gameState.score}`)
+  gameState.displayTime = this.add.text(`Time: ${gameState.time}`)
+
+  gameState.timeInterval =  setInterval(function() {
+      gameState.time --
+      gameState.displayTime.setText(`Time ${gameState.time}`)
+      console.log(gameState.time)
+      if(gameState.time < 10) {
+        gameState.timeRunningOut.play()
+      }
+      if(gameState.time === 0) {
+        console.log("gameover")
+        gameState.playingSound.stop()
+        this.scene.stop('Game')
+        // this.scene.start('Landing')
+        gameState.time = 30
+        gameState.lives = 3
+        clearInterval(gameState.timeInterval)
+      }
+    }.bind(this), 1000)
+
+  gameState.livesLeft = this.add.text(270, 10, `Lives: ${gameState.lives}`)
+  gameState.displayLevel = this.add.text(100, 10, `Level: ${gameState.level}`)
+  gameState.displayScore = this.add.text(450, 10, `Score: ${gameState.score}`)
+  gameState.displayTime = this.add.text(600, 10, `Time: ${gameState.time}`)
+
+  gameState.exampleSprite = this.physics.add.sprite(500, 600, 'frog');
+
+  this.anims.create({
+    key: 'movement',
+    frames: this.anims.generateFrameNumbers('frog', { start: 0, end: 5 }),
+    frameRate: 10,
+    repeat: -1
+  });
+// }
 
   }
   update() {
