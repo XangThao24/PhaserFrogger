@@ -195,7 +195,21 @@ class Game extends Phaser.Scene {
             gameState.frog.destroy()
             gameState.lives -= 1
             gameState.livesLeft.setText(`Lives ${gameState.lives}`)
-            genFrog()
+            // genFrog()
+            // frog.destroy()
+        // gameState.lives -= 1
+        // gameState.livesLeft.setText(`Lives ${gameState.lives}`)
+        // gameState.frogSplashSound.play()
+        // console.log(gameState.lives)
+        
+        if(gameState.lives === 0) {
+          gameState.playingSound.stop()
+          this.scene.stop('Game')
+          this.scene.start('Landing')
+          gameState.lives = 3
+        }
+        genFrog()
+        return
           } else {
             console.log("on log")
             
@@ -223,7 +237,21 @@ class Game extends Phaser.Scene {
             gameState.frog.destroy()
             gameState.lives -= 1
             gameState.livesLeft.setText(`Lives ${gameState.lives}`)
-            genFrog()
+            // gameState.frog.destroy()
+        // gameState.lives -= 1
+        // gameState.livesLeft.setText(`Lives ${gameState.lives}`)
+        // gameState.frogSplashSound.play()
+        // console.log(gameState.lives)
+        
+        if(gameState.lives === 0) {
+          gameState.playingSound.stop()
+          this.scene.stop('Game')
+          this.scene.start('Landing')
+          gameState.lives = 3
+        }
+        genFrog()
+        return
+            // genFrog()
           } else {
             console.log("on log")
             
@@ -238,8 +266,8 @@ class Game extends Phaser.Scene {
     const logs1 = this.physics.add.group();
     function genLogs1() {
       let roadY1 = 6 * rowHeight + halfRowHeight
-      let randomSpeed = Math.floor(Math.random() * 25)
-      let log1 = logs1.create(10, roadY1, "log")
+      let randomSpeed = Math.floor(Math.random() * 20)
+      let log1 = logs1.create(-30, roadY1, "log")
       log1.displayWidth=800*.1
       log1.displayHeight = carLogHeight
       log1.setDepth(2)
@@ -258,7 +286,7 @@ class Game extends Phaser.Scene {
     function genLogs2() {
       let roadY1 = 5 * rowHeight + halfRowHeight
       let randomSpeed = Math.floor(Math.random() * 25)
-      let log1 = logs2.create(800, roadY1, "log")
+      let log1 = logs2.create(830, roadY1, "log")
       log1.displayWidth=800*.1
       log1.displayHeight = carLogHeight
       log1.setDepth(2)
@@ -266,7 +294,7 @@ class Game extends Phaser.Scene {
     }
 
     const log1GenLoop2 = this.time.addEvent({
-      delay: 4000,
+      delay: 5000,
       callback: genLogs2,
       callbackScope: this,
       loop: true
@@ -275,8 +303,8 @@ class Game extends Phaser.Scene {
     const logs3 = this.physics.add.group();
     function genLogs3() {
       let roadY1 = 4 * rowHeight + halfRowHeight
-      let randomSpeed = Math.floor(Math.random() * 25)
-      let log1 = logs3.create(10, roadY1, "log")
+      let randomSpeed = Math.floor(Math.random() * 15)
+      let log1 = logs3.create(-30, roadY1, "log")
       log1.displayWidth=800*.1
       log1.displayHeight = carLogHeight
       log1.setDepth(2)
@@ -284,7 +312,7 @@ class Game extends Phaser.Scene {
     }
 
     const log1GenLoop3 = this.time.addEvent({
-      delay: 4000,
+      delay: 3000,
       callback: genLogs3,
       callbackScope: this,
       loop: true
@@ -293,8 +321,8 @@ class Game extends Phaser.Scene {
     const logs4 = this.physics.add.group();
     function genLogs4() {
       let roadY1 = 3 * rowHeight + halfRowHeight
-      let log1 = logs4.create(800, roadY1, "log")
-      let randomSpeed = Math.floor(Math.random() * 25)
+      let log1 = logs4.create(830, roadY1, "log")
+      let randomSpeed = Math.floor(Math.random() * 20)
       log1.displayWidth=800*.1
       log1.displayHeight = carLogHeight
       log1.setDepth(2)
@@ -302,7 +330,7 @@ class Game extends Phaser.Scene {
     }
 
     const log1GenLoop4 = this.time.addEvent({
-      delay: 4000,
+      delay: 3500,
       callback: genLogs4,
       callbackScope: this,
       loop: true
@@ -311,8 +339,8 @@ class Game extends Phaser.Scene {
     const logs5 = this.physics.add.group();
     function genLogs5() {
       let roadY1 = 2 * rowHeight + halfRowHeight
-      let randomSpeed = Math.floor(Math.random() * 25)
-      let log1 = logs3.create(10, roadY1, "log")
+      let randomSpeed = Math.floor(Math.random() * 10)
+      let log1 = logs3.create(-30, roadY1, "log")
       log1.displayWidth=800*.1
       log1.displayHeight = carLogHeight
       log1.setDepth(2)
@@ -320,7 +348,7 @@ class Game extends Phaser.Scene {
     }
 
     const log1GenLoop5 = this.time.addEvent({
-      delay: 4000,
+      delay: 2500,
       callback: genLogs5,
       callbackScope: this,
       loop: true
@@ -360,6 +388,7 @@ class Game extends Phaser.Scene {
         frog.destroy()
         gameState.lives -= 1
         gameState.livesLeft.setText(`Lives ${gameState.lives}`)
+        gameState.frogSplashSound.play()
         console.log(gameState.lives)
         
         if(gameState.lives === 0) {
@@ -386,6 +415,7 @@ class Game extends Phaser.Scene {
         frog.destroy()
         gameState.lives -= 1
         gameState.livesLeft.setText(`Lives ${gameState.lives}`)
+        gameState.frogSplashSound.play()
         console.log(gameState.lives)
       
         if(gameState.lives === 0) {
@@ -410,6 +440,7 @@ class Game extends Phaser.Scene {
         frog.destroy()
         gameState.lives -= 1
         gameState.livesLeft.setText(`Lives ${gameState.lives}`)
+        gameState.frogSplashSound.play()
         console.log(gameState.lives)
       
         if(gameState.lives === 0) {
@@ -434,6 +465,7 @@ class Game extends Phaser.Scene {
         frog.destroy()
         gameState.lives -= 1
         gameState.livesLeft.setText(`Lives ${gameState.lives}`)
+        gameState.frogSplashSound.play()
         console.log(gameState.lives)
       
         if(gameState.lives === 0) {
@@ -458,6 +490,7 @@ class Game extends Phaser.Scene {
         frog.destroy()
         gameState.lives -= 1
         gameState.livesLeft.setText(`Lives ${gameState.lives}`)
+        gameState.frogSplashSound.play()
         console.log(gameState.lives)
       
         if(gameState.lives === 0) {
@@ -489,7 +522,7 @@ class Game extends Phaser.Scene {
 
     const vehicles = this.physics.add.group();
   
-    function genItem1 (init=0) {
+    function genItem1 (init=-80) {
       let randomCar = Math.floor(Math.random() * rightVehicles.length)
       let randomSpeed = Math.floor(Math.random() * 50)
       let roadY1 = 8 * rowHeight + halfRowHeight
@@ -532,7 +565,7 @@ class Game extends Phaser.Scene {
       let randomCar = Math.floor(Math.random() * leftVehicles.length)
       let randomSpeed = Math.floor(Math.random() * 50)
       let roadY1 = 9 * rowHeight + halfRowHeight
-      let vehicle = vehicles2.create(850, roadY1, leftVehicles[randomCar])
+      let vehicle = vehicles2.create(880, roadY1, leftVehicles[randomCar])
       if(randomCar < 2) {
         vehicle.displayWidth=800*.2
       } else {
@@ -571,7 +604,7 @@ class Game extends Phaser.Scene {
       let randomCar = Math.floor(Math.random() * rightVehicles.length)
       let randomSpeed = Math.floor(Math.random() * 50)
       let roadY1 = 10 * rowHeight + halfRowHeight
-      let vehicle = vehicles3.create(0, roadY1, rightVehicles[randomCar])
+      let vehicle = vehicles3.create(-80, roadY1, rightVehicles[randomCar])
       if(randomCar < 2) {
         vehicle.displayWidth=800*.2
       } else {
@@ -610,7 +643,7 @@ class Game extends Phaser.Scene {
       let randomCar = Math.floor(Math.random() * leftVehicles.length)
       let randomSpeed = Math.floor(Math.random() * 50)
       let roadY1 = 11 * rowHeight + halfRowHeight
-      let vehicle = vehicles4.create(850, roadY1, leftVehicles[randomCar])
+      let vehicle = vehicles4.create(880, roadY1, leftVehicles[randomCar])
       if(randomCar < 2) {
         vehicle.displayWidth=800*.2
       } else {
@@ -649,7 +682,7 @@ class Game extends Phaser.Scene {
       let randomCar = Math.floor(Math.random() * rightVehicles.length)
       let randomSpeed = Math.floor(Math.random() * 25)
       let roadY1 = 12 * rowHeight + halfRowHeight
-      let vehicle = vehicles5.create(0, roadY1, rightVehicles[randomCar])
+      let vehicle = vehicles5.create(-80, roadY1, rightVehicles[randomCar])
       if(randomCar < 2) {
         vehicle.displayWidth=800*.2
       } else {
