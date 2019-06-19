@@ -33,6 +33,8 @@ import jumpUpDown from "./assets/images/jumpUpDown.png"
 
 // explosion
 import explosion from "./assets/images/explosion.png"
+import frogVehicleCollision from "./assets/images/frogVehicleCollision.png"
+import frogSplash from "./assets/images/frogSplash.png"
 
 //log
 import log from "./assets/images/log.png"
@@ -91,6 +93,8 @@ class Game extends Phaser.Scene {
     this.load.image("jumpLeft", jumpLeft)
     this.load.image("jumpRight", jumpRight)
     this.load.image("jumpUpDown", jumpUpDown)
+    this.load.image("frogVehicleCollision", frogVehicleCollision)
+    this.load.image("frogSplash", frogSplash)
   
     this.load.audio("playingSound", playingSound)
     this.load.audio("frogHopSound", frogHopSound)
@@ -210,9 +214,17 @@ class Game extends Phaser.Scene {
           if(gameState.currentX === gameState.frog.x) {
             console.log("in water")
             gameState.frogSplashSound.play()
+            let frogSplash = this.add.image(gameState.frog.x, gameState.frog.y, "frogSplash")
+            frogSplash.displayWidth = 800*.1
+            frogSplash.displayHeight = carLogHeight
+            frogSplash.setDepth(1)
+            setTimeout(() => {
+              frogSplash.destroy()
+            }, 500)
             gameState.frog.destroy()
+            
             gameState.lives -= 1
-            gameState.livesLeft.setText(`Lives ${gameState.lives}`)
+            gameState.livesLeft.setText(`Lives: ${gameState.lives}`)
         
         if(gameState.lives === 0) {
           gameState.playingSound.stop()
@@ -250,9 +262,16 @@ class Game extends Phaser.Scene {
           if(gameState.currentX === gameState.frog.x) {
             console.log("in water")
             gameState.frogSplashSound.play()
+            let frogSplash = this.add.image(gameState.frog.x, gameState.frog.y, "frogSplash")
+            frogSplash.displayWidth = 800*.1
+            frogSplash.displayHeight = carLogHeight
+            frogSplash.setDepth(1)
+            setTimeout(() => {
+              frogSplash.destroy()
+            }, 500)
             gameState.frog.destroy()
             gameState.lives -= 1
-            gameState.livesLeft.setText(`Lives ${gameState.lives}`)
+            gameState.livesLeft.setText(`Lives: ${gameState.lives}`)
         
         if(gameState.lives === 0) {
           gameState.playingSound.stop()
@@ -393,6 +412,13 @@ class Game extends Phaser.Scene {
 
     this.physics.add.collider(frogs, logs1, function(frog, log) {
       if(frog.x < log.x - 45 || frog.x > log.x + 45) {
+        let frogSplash = this.add.image(frog.x, frog.y, "frogSplash")
+            frogSplash.displayWidth = 800*.1
+            frogSplash.displayHeight = carLogHeight
+            frogSplash.setDepth(1)
+            setTimeout(() => {
+              frogSplash.destroy()
+            }, 500)
         frog.destroy()
         gameState.lives -= 1
         gameState.livesLeft.setText(`Lives ${gameState.lives}`)
@@ -420,6 +446,13 @@ class Game extends Phaser.Scene {
 
     this.physics.add.collider(frogs, logs2, function(frog, log) {
       if(frog.x < log.x - 45 || frog.x > log.x + 45) {
+        let frogSplash = this.add.image(frog.x, frog.y, "frogSplash")
+            frogSplash.displayWidth = 800*.1
+            frogSplash.displayHeight = carLogHeight
+            frogSplash.setDepth(1)
+            setTimeout(() => {
+              frogSplash.destroy()
+            }, 500)
         frog.destroy()
         gameState.lives -= 1
         gameState.livesLeft.setText(`Lives ${gameState.lives}`)
@@ -445,6 +478,13 @@ class Game extends Phaser.Scene {
 
     this.physics.add.collider(frogs, logs3, function(frog, log) {
       if(frog.x < log.x - 45 || frog.x > log.x + 45) {
+        let frogSplash = this.add.image(frog.x, frog.y, "frogSplash")
+            frogSplash.displayWidth = 800*.1
+            frogSplash.displayHeight = carLogHeight
+            frogSplash.setDepth(1)
+            setTimeout(() => {
+              frogSplash.destroy()
+            }, 500)
         frog.destroy()
         gameState.lives -= 1
         gameState.livesLeft.setText(`Lives ${gameState.lives}`)
@@ -470,6 +510,13 @@ class Game extends Phaser.Scene {
 
     this.physics.add.collider(frogs, logs4, function(frog, log) {
       if(frog.x < log.x - 45 || frog.x > log.x + 45) {
+        let frogSplash = this.add.image(frog.x, frog.y, "frogSplash")
+            frogSplash.displayWidth = 800*.1
+            frogSplash.displayHeight = carLogHeight
+            frogSplash.setDepth(1)
+            setTimeout(() => {
+              frogSplash.destroy()
+            }, 500)
         frog.destroy()
         gameState.lives -= 1
         gameState.livesLeft.setText(`Lives ${gameState.lives}`)
@@ -495,6 +542,13 @@ class Game extends Phaser.Scene {
 
     this.physics.add.collider(frogs, logs5, function(frog, log) {
       if(frog.x < log.x - 45 || frog.x > log.x + 45) {
+        let frogSplash = this.add.image(frog.x, frog.y, "frogSplash")
+            frogSplash.displayWidth = 800*.1
+            frogSplash.displayHeight = carLogHeight
+            frogSplash.setDepth(1)
+            setTimeout(() => {
+              frogSplash.destroy()
+            }, 500)
         frog.destroy()
         gameState.lives -= 1
         gameState.livesLeft.setText(`Lives ${gameState.lives}`)
@@ -541,6 +595,7 @@ class Game extends Phaser.Scene {
         vehicle.displayWidth = 800*.1
       }
       vehicle.displayHeight = carLogHeight
+      vehicle.setDepth(2)
       vehicle.setVelocityX(gameState.rightVelocity  + 25 + randomSpeed)
       
     }
@@ -555,6 +610,13 @@ class Game extends Phaser.Scene {
     this.physics.add.collider(frogs, vehicles, function(frog, vehicle) {
       gameState.frogSquashSound.play()
       frog.destroy()
+      let frogBlood = this.add.image(frog.x, frog.y, "frogVehicleCollision")
+        frogBlood.displayWidth = 800*.1
+        frogBlood.displayHeight = carLogHeight
+        frogBlood.setDepth(1)
+        setTimeout(() => {
+          frogBlood.destroy()
+        }, 500)
       genFrog()
       gameState.lives -= 1
       gameState.livesLeft.setText(`Lives ${gameState.lives}`)
@@ -580,6 +642,7 @@ class Game extends Phaser.Scene {
         vehicle.displayWidth = 800*.1
       }
       vehicle.displayHeight = carLogHeight
+      vehicle.setDepth(2)
       vehicle.setVelocityX(gameState.leftVelocity - 45 - randomSpeed)
       
     }
@@ -594,6 +657,13 @@ class Game extends Phaser.Scene {
     this.physics.add.collider(frogs, vehicles2, function(frog, vehicle) {
       gameState.frogSquashSound.play()
       frog.destroy()
+      let frogBlood = this.add.image(frog.x, frog.y, "frogVehicleCollision")
+        frogBlood.displayWidth = 800*.1
+        frogBlood.displayHeight = carLogHeight
+        frogBlood.setDepth(1)
+        setTimeout(() => {
+          frogBlood.destroy()
+        }, 500)
       genFrog()
       gameState.lives -= 1
       gameState.livesLeft.setText(`Lives ${gameState.lives}`)
@@ -619,6 +689,7 @@ class Game extends Phaser.Scene {
         vehicle.displayWidth = 800*.1
       }
       vehicle.displayHeight = carLogHeight
+      vehicle.setDepth(2)
       vehicle.setVelocityX(gameState.rightVelocity  + 20 + randomSpeed)
       
     }
@@ -633,6 +704,13 @@ class Game extends Phaser.Scene {
     this.physics.add.collider(frogs, vehicles3, function(frog, vehicle) {
       gameState.frogSquashSound.play()
       frog.destroy()
+      let frogBlood = this.add.image(frog.x, frog.y, "frogVehicleCollision")
+        frogBlood.displayWidth = 800*.1
+        frogBlood.displayHeight = carLogHeight
+        frogBlood.setDepth(1)
+        setTimeout(() => {
+          frogBlood.destroy()
+        }, 500)
       genFrog()
       gameState.lives -= 1
       gameState.livesLeft.setText(`Lives ${gameState.lives}`)
@@ -658,6 +736,7 @@ class Game extends Phaser.Scene {
         vehicle.displayWidth = 800*.1
       }
       vehicle.displayHeight = carLogHeight
+      vehicle.setDepth(2)
       vehicle.setVelocityX(gameState.leftVelocity - 35 - randomSpeed)
       
     }
@@ -672,6 +751,13 @@ class Game extends Phaser.Scene {
     this.physics.add.collider(frogs, vehicles4, function(frog, vehicle) {
       gameState.frogSquashSound.play()
       frog.destroy()
+      let frogBlood = this.add.image(frog.x, frog.y, "frogVehicleCollision")
+        frogBlood.displayWidth = 800*.1
+        frogBlood.displayHeight = carLogHeight
+        frogBlood.setDepth(1)
+        setTimeout(() => {
+          frogBlood.destroy()
+        }, 500)
       genFrog()
       gameState.lives -= 1
       gameState.livesLeft.setText(`Lives ${gameState.lives}`)
@@ -697,6 +783,7 @@ class Game extends Phaser.Scene {
         vehicle.displayWidth = 800*.1
       }
       vehicle.displayHeight = carLogHeight
+      vehicle.setDepth(2)
       vehicle.setVelocityX(gameState.rightVelocity  + 5 + randomSpeed)
       
     }
@@ -711,6 +798,13 @@ class Game extends Phaser.Scene {
     this.physics.add.collider(frogs, vehicles5, function(frog, vehicle) {
       gameState.frogSquashSound.play()
       frog.destroy()
+      let frogBlood = this.add.image(frog.x, frog.y, "frogVehicleCollision")
+        frogBlood.displayWidth = 800*.1
+        frogBlood.displayHeight = carLogHeight
+        frogBlood.setDepth(1)
+        setTimeout(() => {
+          frogBlood.destroy()
+        }, 500)
       genFrog()
       gameState.lives -= 1
       gameState.livesLeft.setText(`Lives ${gameState.lives}`)
@@ -934,7 +1028,7 @@ class Game extends Phaser.Scene {
 
   gameState.timeInterval =  setInterval(function() {
       gameState.time --
-      gameState.displayTime.setText(`Time ${gameState.time}`)
+      gameState.displayTime.setText(`Time: ${gameState.time}`)
       console.log(gameState.time)
       if(gameState.time < 10) {
         gameState.timeRunningOut.play()
