@@ -48,12 +48,12 @@ import landSafe from "./assets/sounds/landSafe.wav"
 import timeRunningOut from "./assets/sounds/sound-frogger-time.wav"
 import vehicleCrash from "./assets/sounds/vehicleCrash.mp3"
 
-const gameState = {
+let gameState = {
   lives: 3,
   score: 0,
   level: 1,
   candies: 0,
-  time: 300,
+  time: 60,
   rightVelocity: 50,
   leftVelocity: -50
 }
@@ -228,8 +228,28 @@ class Game extends Phaser.Scene {
         
         if(gameState.lives === 0) {
           gameState.playingSound.stop()
-          this.scene.stop('Game')
-          this.scene.start('Landing')
+          this.input.keyboard.off('keyup_LEFT')
+          this.input.keyboard.off('keyup_RIGHT')
+          this.input.keyboard.off('keyup_UP')
+          this.input.keyboard.off('keyup_DOWN')
+          clearInterval(gameState.timeInterval)
+          gameState.reset = this.add.text(180, 310, `Game Over Score is ${gameState.score} Click to Play again`, { fontSize: "20px", fill: '#000000' });
+          gameState.reset.setInteractive()
+          gameState.reset.on("pointerup", () => {
+            gameState = {
+              lives: 3,
+              score: 0,
+              level: 1,
+              candies: 0,
+              time: 60,
+              rightVelocity: 50,
+              leftVelocity: -50
+            }
+            this.scene.restart()
+          })
+          // this.scene.stop('Game')
+          // this.scene.start('Landing')
+          this.physics.pause()
           gameState.lives = 3
         }
         genFrog()
@@ -275,8 +295,28 @@ class Game extends Phaser.Scene {
         
         if(gameState.lives === 0) {
           gameState.playingSound.stop()
-          this.scene.stop('Game')
-          this.scene.start('Landing')
+          this.input.keyboard.off('keyup_LEFT')
+          this.input.keyboard.off('keyup_RIGHT')
+          this.input.keyboard.off('keyup_UP')
+          this.input.keyboard.off('keyup_DOWN')
+          clearInterval(gameState.timeInterval)
+          this.physics.pause()
+          gameState.reset = this.add.text(180, 310, `Game Over Score is ${gameState.score} Click to Play again`, { fontSize: "20px", fill: '#000000' });
+          gameState.reset.setInteractive()
+          gameState.reset.on("pointerup", () => {
+            gameState = {
+              lives: 3,
+              score: 0,
+              level: 1,
+              candies: 0,
+              time: 60,
+              rightVelocity: 50,
+              leftVelocity: -50
+            }
+            this.scene.restart()
+          })
+          // this.scene.stop('Game')
+          // this.scene.start('Landing')
           gameState.lives = 3
         }
         genFrog()
@@ -421,14 +461,34 @@ class Game extends Phaser.Scene {
             }, 500)
         frog.destroy()
         gameState.lives -= 1
-        gameState.livesLeft.setText(`Lives ${gameState.lives}`)
+        gameState.livesLeft.setText(`Lives: ${gameState.lives}`)
         gameState.frogSplashSound.play()
         console.log(gameState.lives)
         
         if(gameState.lives === 0) {
           gameState.playingSound.stop()
-          this.scene.stop('Game')
-          this.scene.start('Landing')
+          this.input.keyboard.off('keyup_LEFT')
+          this.input.keyboard.off('keyup_RIGHT')
+          this.input.keyboard.off('keyup_UP')
+          this.input.keyboard.off('keyup_DOWN')
+          clearInterval(gameState.timeInterval)
+          gameState.reset = this.add.text(180, 310, `Game Over Score is ${gameState.score} Click to Play again`, { fontSize: "20px", fill: '#000000' });
+          gameState.reset.setInteractive()
+          gameState.reset.on("pointerup", () => {
+            gameState = {
+              lives: 3,
+              score: 0,
+              level: 1,
+              candies: 0,
+              time: 60,
+              rightVelocity: 50,
+              leftVelocity: -50
+            }
+            this.scene.restart()
+          })
+          // this.scene.stop('Game')
+          // this.scene.start('Landing')
+          this.physics.pause()
           gameState.lives = 3
         }
         genFrog()
@@ -455,14 +515,34 @@ class Game extends Phaser.Scene {
             }, 500)
         frog.destroy()
         gameState.lives -= 1
-        gameState.livesLeft.setText(`Lives ${gameState.lives}`)
+        gameState.livesLeft.setText(`Lives: ${gameState.lives}`)
         gameState.frogSplashSound.play()
         console.log(gameState.lives)
       
         if(gameState.lives === 0) {
           gameState.playingSound.stop()
-          this.scene.stop('Game')
-          this.scene.start('Landing')
+          this.input.keyboard.off('keyup_LEFT')
+          this.input.keyboard.off('keyup_RIGHT')
+          this.input.keyboard.off('keyup_UP')
+          this.input.keyboard.off('keyup_DOWN')
+          clearInterval(gameState.timeInterval)
+          gameState.reset = this.add.text(180, 310, `Game Over Score is ${gameState.score} Click to Play again`, { fontSize: "20px", fill: '#000000' });
+          gameState.reset.setInteractive()
+          gameState.reset.on("pointerup", () => {
+            gameState = {
+              lives: 3,
+              score: 0,
+              level: 1,
+              candies: 0,
+              time: 60,
+              rightVelocity: 50,
+              leftVelocity: -50
+            }
+            this.scene.restart()
+          })
+          this.physics.pause()
+          // this.scene.stop('Game')
+          // this.scene.start('Landing')
           gameState.lives = 3
         }
         genFrog()
@@ -487,14 +567,34 @@ class Game extends Phaser.Scene {
             }, 500)
         frog.destroy()
         gameState.lives -= 1
-        gameState.livesLeft.setText(`Lives ${gameState.lives}`)
+        gameState.livesLeft.setText(`Lives: ${gameState.lives}`)
         gameState.frogSplashSound.play()
         console.log(gameState.lives)
       
         if(gameState.lives === 0) {
           gameState.playingSound.stop()
-          this.scene.stop('Game')
-          this.scene.start('Landing')
+          this.input.keyboard.off('keyup_LEFT')
+          this.input.keyboard.off('keyup_RIGHT')
+          this.input.keyboard.off('keyup_UP')
+          this.input.keyboard.off('keyup_DOWN')
+          clearInterval(gameState.timeInterval)
+          gameState.reset = this.add.text(180, 310, `Game Over Score is ${gameState.score} Click to Play again`, { fontSize: "20px", fill: '#000000' });
+          gameState.reset.setInteractive()
+          gameState.reset.on("pointerup", () => {
+            gameState = {
+              lives: 3,
+              score: 0,
+              level: 1,
+              candies: 0,
+              time: 60,
+              rightVelocity: 50,
+              leftVelocity: -50
+            }
+            this.scene.restart()
+          })
+          this.physics.pause()
+          // this.scene.stop('Game')
+          // this.scene.start('Landing')
           gameState.lives = 3
         }
         genFrog()
@@ -519,14 +619,34 @@ class Game extends Phaser.Scene {
             }, 500)
         frog.destroy()
         gameState.lives -= 1
-        gameState.livesLeft.setText(`Lives ${gameState.lives}`)
+        gameState.livesLeft.setText(`Lives: ${gameState.lives}`)
         gameState.frogSplashSound.play()
         console.log(gameState.lives)
       
         if(gameState.lives === 0) {
           gameState.playingSound.stop()
-          this.scene.stop('Game')
-          this.scene.start('Landing')
+          this.input.keyboard.off('keyup_LEFT')
+          this.input.keyboard.off('keyup_RIGHT')
+          this.input.keyboard.off('keyup_UP')
+          this.input.keyboard.off('keyup_DOWN')
+          clearInterval(gameState.timeInterval)
+          gameState.reset = this.add.text(180, 310, `Game Over Score is ${gameState.score} Click to Play again`, { fontSize: "20px", fill: '#000000' });
+          gameState.reset.setInteractive()
+          gameState.reset.on("pointerup", () => {
+            gameState = {
+              lives: 3,
+              score: 0,
+              level: 1,
+              candies: 0,
+              time: 60,
+              rightVelocity: 50,
+              leftVelocity: -50
+            }
+            this.scene.restart()
+          })
+          this.physics.pause()
+          // this.scene.stop('Game')
+          // this.scene.start('Landing')
           gameState.lives = 3
         }
         genFrog()
@@ -551,14 +671,34 @@ class Game extends Phaser.Scene {
             }, 500)
         frog.destroy()
         gameState.lives -= 1
-        gameState.livesLeft.setText(`Lives ${gameState.lives}`)
+        gameState.livesLeft.setText(`Lives: ${gameState.lives}`)
         gameState.frogSplashSound.play()
         console.log(gameState.lives)
       
         if(gameState.lives === 0) {
           gameState.playingSound.stop()
-          this.scene.stop('Game')
-          this.scene.start('Landing')
+          this.input.keyboard.off('keyup_LEFT')
+          this.input.keyboard.off('keyup_RIGHT')
+          this.input.keyboard.off('keyup_UP')
+          this.input.keyboard.off('keyup_DOWN')
+          clearInterval(gameState.timeInterval)
+          gameState.reset = this.add.text(180, 310, `Game Over Score is ${gameState.score} Click to Play again`, { fontSize: "20px", fill: '#000000' });
+          gameState.reset.setInteractive()
+          gameState.reset.on("pointerup", () => {
+            gameState = {
+              lives: 3,
+              score: 0,
+              level: 1,
+              candies: 0,
+              time: 60,
+              rightVelocity: 50,
+              leftVelocity: -50
+            }
+            this.scene.restart()
+          })
+          this.physics.pause()
+          // this.scene.stop('Game')
+          // this.scene.start('Landing')
           gameState.lives = 3
         }
         genFrog()
@@ -619,12 +759,32 @@ class Game extends Phaser.Scene {
         }, 500)
       genFrog()
       gameState.lives -= 1
-      gameState.livesLeft.setText(`Lives ${gameState.lives}`)
+      gameState.livesLeft.setText(`Lives: ${gameState.lives}`)
       
       if(gameState.lives === 0) {
         gameState.playingSound.stop()
-        this.scene.stop('Game')
-        this.scene.start('Landing')
+        this.input.keyboard.off('keyup_LEFT')
+          this.input.keyboard.off('keyup_RIGHT')
+          this.input.keyboard.off('keyup_UP')
+          this.input.keyboard.off('keyup_DOWN')
+          clearInterval(gameState.timeInterval)
+          gameState.reset = this.add.text(180, 310, `Game Over Score is ${gameState.score} Click to Play again`, { fontSize: "20px", fill: '#000000' });
+          gameState.reset.setInteractive()
+          gameState.reset.on("pointerup", () => {
+            gameState = {
+              lives: 3,
+              score: 0,
+              level: 1,
+              candies: 0,
+              time: 60,
+              rightVelocity: 50,
+              leftVelocity: -50
+            }
+            this.scene.restart()
+          })
+        this.physics.pause()
+        // this.scene.stop('Game')
+        // this.scene.start('Landing')
         gameState.lives = 3
       }
     }.bind(this));
@@ -666,12 +826,32 @@ class Game extends Phaser.Scene {
         }, 500)
       genFrog()
       gameState.lives -= 1
-      gameState.livesLeft.setText(`Lives ${gameState.lives}`)
+      gameState.livesLeft.setText(`Lives: ${gameState.lives}`)
       
       if(gameState.lives === 0) {
         gameState.playingSound.stop()
-        this.scene.stop('Game')
-        this.scene.start('Landing')
+        this.input.keyboard.off('keyup_LEFT')
+          this.input.keyboard.off('keyup_RIGHT')
+          this.input.keyboard.off('keyup_UP')
+          this.input.keyboard.off('keyup_DOWN')
+          clearInterval(gameState.timeInterval)
+          gameState.reset = this.add.text(180, 310, `Game Over Score is ${gameState.score} Click to Play again`, { fontSize: "20px", fill: '#000000' });
+          gameState.reset.setInteractive()
+          gameState.reset.on("pointerup", () => {
+            gameState = {
+              lives: 3,
+              score: 0,
+              level: 1,
+              candies: 0,
+              time: 60,
+              rightVelocity: 50,
+              leftVelocity: -50
+            }
+            this.scene.restart()
+          })
+        this.physics.pause()
+        // this.scene.stop('Game')
+        // this.scene.start('Landing')
         gameState.lives = 3
       }
     }.bind(this));
@@ -713,12 +893,32 @@ class Game extends Phaser.Scene {
         }, 500)
       genFrog()
       gameState.lives -= 1
-      gameState.livesLeft.setText(`Lives ${gameState.lives}`)
+      gameState.livesLeft.setText(`Lives: ${gameState.lives}`)
       
       if(gameState.lives === 0) {
         gameState.playingSound.stop()
-        this.scene.stop('Game')
-        this.scene.start('Landing')
+        this.input.keyboard.off('keyup_LEFT')
+          this.input.keyboard.off('keyup_RIGHT')
+          this.input.keyboard.off('keyup_UP')
+          this.input.keyboard.off('keyup_DOWN')
+          clearInterval(gameState.timeInterval)
+          gameState.reset = this.add.text(180, 310, `Game Over Score is ${gameState.score} Click to Play again`, { fontSize: "20px", fill: '#000000' });
+          gameState.reset.setInteractive()
+          gameState.reset.on("pointerup", () => {
+            gameState = {
+              lives: 3,
+              score: 0,
+              level: 1,
+              candies: 0,
+              time: 60,
+              rightVelocity: 50,
+              leftVelocity: -50
+            }
+            this.scene.restart()
+          })
+        this.physics.pause()
+        // this.scene.stop('Game')
+        // this.scene.start('Landing')
         gameState.lives = 3
       }
     }.bind(this));
@@ -760,12 +960,32 @@ class Game extends Phaser.Scene {
         }, 500)
       genFrog()
       gameState.lives -= 1
-      gameState.livesLeft.setText(`Lives ${gameState.lives}`)
+      gameState.livesLeft.setText(`Lives: ${gameState.lives}`)
       
       if(gameState.lives === 0) {
         gameState.playingSound.stop()
-        this.scene.stop('Game')
-        this.scene.start('Landing')
+        this.input.keyboard.off('keyup_LEFT')
+          this.input.keyboard.off('keyup_RIGHT')
+          this.input.keyboard.off('keyup_UP')
+          this.input.keyboard.off('keyup_DOWN')
+          clearInterval(gameState.timeInterval)
+          gameState.reset = this.add.text(180, 310, `Game Over Score is ${gameState.score} Click to Play again`, { fontSize: "20px", fill: '#000000' });
+          gameState.reset.setInteractive()
+          gameState.reset.on("pointerup", () => {
+            gameState = {
+              lives: 3,
+              score: 0,
+              level: 1,
+              candies: 0,
+              time: 60,
+              rightVelocity: 50,
+              leftVelocity: -50
+            }
+            this.scene.restart()
+          })
+        this.physics.pause()
+        // this.scene.stop('Game')
+        // this.scene.start('Landing')
         gameState.lives = 3
       }
     }.bind(this));
@@ -807,12 +1027,32 @@ class Game extends Phaser.Scene {
         }, 500)
       genFrog()
       gameState.lives -= 1
-      gameState.livesLeft.setText(`Lives ${gameState.lives}`)
+      gameState.livesLeft.setText(`Lives: ${gameState.lives}`)
       
       if(gameState.lives === 0) {
         gameState.playingSound.stop()
-        this.scene.stop('Game')
-        this.scene.start('Landing')
+        this.input.keyboard.off('keyup_LEFT')
+          this.input.keyboard.off('keyup_RIGHT')
+          this.input.keyboard.off('keyup_UP')
+          this.input.keyboard.off('keyup_DOWN')
+          clearInterval(gameState.timeInterval)
+          gameState.reset = this.add.text(180, 310, `Game Over Score is ${gameState.score} Click to Play again`, { fontSize: "20px", fill: '#000000' });
+          gameState.reset.setInteractive()
+          gameState.reset.on("pointerup", () => {
+            gameState = {
+              lives: 3,
+              score: 0,
+              level: 1,
+              candies: 0,
+              time: 60,
+              rightVelocity: 50,
+              leftVelocity: -50
+            }
+            this.scene.restart()
+          })
+        this.physics.pause()
+        // this.scene.stop('Game')
+        // this.scene.start('Landing')
         gameState.lives = 3
       }
     }.bind(this));
@@ -1035,12 +1275,63 @@ class Game extends Phaser.Scene {
       }
       if(gameState.time === 0) {
         console.log("gameover")
-        gameState.playingSound.stop()
-        this.scene.stop('Game')
+        gameState.frog.destroy()
+        gameState.lives -= 1
+        gameState.livesLeft.setText(`Lives: ${gameState.lives}`)
+        gameState.frogSplashSound.play()
         gameState.time = 30
-        gameState.lives = 3
-        clearInterval(gameState.timeInterval)
+        genFrog()
+        console.log(gameState.lives)
       }
+        if(gameState.lives === 0) {
+          gameState.playingSound.stop()
+          this.input.keyboard.off('keyup_LEFT')
+          this.input.keyboard.off('keyup_RIGHT')
+          this.input.keyboard.off('keyup_UP')
+          this.input.keyboard.off('keyup_DOWN')
+          clearInterval(gameState.timeInterval)
+          gameState.reset = this.add.text(180, 310, `Game Over Score is ${gameState.score} Click to Play again`, { fontSize: "20px", fill: '#000000' });
+          gameState.reset.setInteractive()
+          gameState.reset.on("pointerup", () => {
+            gameState = {
+              lives: 3,
+              score: 0,
+              level: 1,
+              candies: 0,
+              time: 60,
+              rightVelocity: 50,
+              leftVelocity: -50
+            }
+            this.scene.restart()
+          })
+          // this.scene.stop('Game')
+          // this.scene.start('Landing')
+          this.physics.pause()
+          gameState.lives = 3
+          gameState.time = 30
+          gameState.lives = 3
+          clearInterval(gameState.timeInterval)
+          genFrog()
+          return
+        }
+        
+        
+      
+
+        // gameState.playingSound.stop()
+        
+        // this.input.keyboard.off('keyup_LEFT')
+        // this.input.keyboard.off('keyup_RIGHT')
+        // this.input.keyboard.off('keyup_UP')
+        // this.input.keyboard.off('keyup_DOWN')
+        // clearInterval(gameState.timeInterval)
+        // gameState.reset = this.add.text(180, 310, `Game Over Score is ${gameState.score} Click to Play again`, { fontSize: "20px", fill: '#000000' });
+        // this.physics.pause()
+
+        // gameState.time = 30
+        // gameState.lives = 3
+        // clearInterval(gameState.timeInterval)
+      // }
     }.bind(this), 1000)
 
   gameState.livesLeft = this.add.text(270, 10, `Lives: ${gameState.lives}`)
