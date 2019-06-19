@@ -197,8 +197,10 @@ class Game extends Phaser.Scene {
 
     this.input.keyboard.on('keyup_DOWN', (event) => {
       gameState.frog.y += rowHeight + 0.00001
-      gameState.currentX = gameState.frog.x 
-      
+      gameState.currentX = gameState.frog.y 
+      if(gameState.frog.y >= 578) {
+        gameState.frog.y = 578.56
+      }
       gameState.frog.setTexture("jumpUpDown")
       setTimeout(() => {
         gameState.frog.setTexture("idleFrog")
@@ -212,7 +214,6 @@ class Game extends Phaser.Scene {
       function fadePicture() {
         if(gameState.frog.y < 297 ) {
           if(gameState.currentX === gameState.frog.x) {
-            console.log("in water")
             gameState.frogSplashSound.play()
             let frogSplash = this.add.image(gameState.frog.x, gameState.frog.y, "frogSplash")
             frogSplash.displayWidth = 800*.1
@@ -232,6 +233,10 @@ class Game extends Phaser.Scene {
           this.input.keyboard.off('keyup_RIGHT')
           this.input.keyboard.off('keyup_UP')
           this.input.keyboard.off('keyup_DOWN')
+          gameState.upButton.off("pointerup")
+          gameState.downButton.off("pointerup")
+          gameState.leftButton.off("pointerup")
+          gameState.rightButton.off("pointerup")
           clearInterval(gameState.timeInterval)
           gameState.reset = this.add.text(180, 310, `Game Over Score is ${gameState.score} Click to Play again`, { fontSize: "20px", fill: '#000000' });
           gameState.reset.setInteractive()
@@ -247,16 +252,12 @@ class Game extends Phaser.Scene {
             }
             this.scene.restart()
           })
-          // this.scene.stop('Game')
-          // this.scene.start('Landing')
           this.physics.pause()
           gameState.lives = 3
         }
         genFrog()
         return
           } else {
-            console.log("on log")
-            
           }
         }
         
@@ -280,7 +281,6 @@ class Game extends Phaser.Scene {
       function fadePicture() {
         if(gameState.frog.y < 297 ) {
           if(gameState.currentX === gameState.frog.x) {
-            console.log("in water")
             gameState.frogSplashSound.play()
             let frogSplash = this.add.image(gameState.frog.x, gameState.frog.y, "frogSplash")
             frogSplash.displayWidth = 800*.1
@@ -299,6 +299,10 @@ class Game extends Phaser.Scene {
           this.input.keyboard.off('keyup_RIGHT')
           this.input.keyboard.off('keyup_UP')
           this.input.keyboard.off('keyup_DOWN')
+          gameState.upButton.off("pointerup")
+          gameState.downButton.off("pointerup")
+          gameState.leftButton.off("pointerup")
+          gameState.rightButton.off("pointerup")
           clearInterval(gameState.timeInterval)
           this.physics.pause()
           gameState.reset = this.add.text(180, 310, `Game Over Score is ${gameState.score} Click to Play again`, { fontSize: "20px", fill: '#000000' });
@@ -315,15 +319,11 @@ class Game extends Phaser.Scene {
             }
             this.scene.restart()
           })
-          // this.scene.stop('Game')
-          // this.scene.start('Landing')
           gameState.lives = 3
         }
         genFrog()
         return
           } else {
-            console.log("on log")
-            
           }
         }
         
@@ -340,7 +340,6 @@ class Game extends Phaser.Scene {
       log1.displayWidth=800*.1
       log1.displayHeight = carLogHeight
       log1.setDepth(2)
-      console.log("Random Speed is",randomSpeed)
       log1.setVelocityX(gameState.rightVelocity + 25 + randomSpeed)
     }
 
@@ -463,7 +462,6 @@ class Game extends Phaser.Scene {
         gameState.lives -= 1
         gameState.livesLeft.setText(`Lives: ${gameState.lives}`)
         gameState.frogSplashSound.play()
-        console.log(gameState.lives)
         
         if(gameState.lives === 0) {
           gameState.playingSound.stop()
@@ -471,6 +469,10 @@ class Game extends Phaser.Scene {
           this.input.keyboard.off('keyup_RIGHT')
           this.input.keyboard.off('keyup_UP')
           this.input.keyboard.off('keyup_DOWN')
+          gameState.upButton.off("pointerup")
+          gameState.downButton.off("pointerup")
+          gameState.leftButton.off("pointerup")
+          gameState.rightButton.off("pointerup")
           clearInterval(gameState.timeInterval)
           gameState.reset = this.add.text(180, 310, `Game Over Score is ${gameState.score} Click to Play again`, { fontSize: "20px", fill: '#000000' });
           gameState.reset.setInteractive()
@@ -486,8 +488,6 @@ class Game extends Phaser.Scene {
             }
             this.scene.restart()
           })
-          // this.scene.stop('Game')
-          // this.scene.start('Landing')
           this.physics.pause()
           gameState.lives = 3
         }
@@ -517,14 +517,16 @@ class Game extends Phaser.Scene {
         gameState.lives -= 1
         gameState.livesLeft.setText(`Lives: ${gameState.lives}`)
         gameState.frogSplashSound.play()
-        console.log(gameState.lives)
-      
         if(gameState.lives === 0) {
           gameState.playingSound.stop()
           this.input.keyboard.off('keyup_LEFT')
           this.input.keyboard.off('keyup_RIGHT')
           this.input.keyboard.off('keyup_UP')
           this.input.keyboard.off('keyup_DOWN')
+          gameState.upButton.off("pointerup")
+          gameState.downButton.off("pointerup")
+          gameState.leftButton.off("pointerup")
+          gameState.rightButton.off("pointerup")
           clearInterval(gameState.timeInterval)
           gameState.reset = this.add.text(180, 310, `Game Over Score is ${gameState.score} Click to Play again`, { fontSize: "20px", fill: '#000000' });
           gameState.reset.setInteractive()
@@ -541,8 +543,6 @@ class Game extends Phaser.Scene {
             this.scene.restart()
           })
           this.physics.pause()
-          // this.scene.stop('Game')
-          // this.scene.start('Landing')
           gameState.lives = 3
         }
         genFrog()
@@ -569,14 +569,16 @@ class Game extends Phaser.Scene {
         gameState.lives -= 1
         gameState.livesLeft.setText(`Lives: ${gameState.lives}`)
         gameState.frogSplashSound.play()
-        console.log(gameState.lives)
-      
         if(gameState.lives === 0) {
           gameState.playingSound.stop()
           this.input.keyboard.off('keyup_LEFT')
           this.input.keyboard.off('keyup_RIGHT')
           this.input.keyboard.off('keyup_UP')
           this.input.keyboard.off('keyup_DOWN')
+          gameState.upButton.off("pointerup")
+          gameState.downButton.off("pointerup")
+          gameState.leftButton.off("pointerup")
+          gameState.rightButton.off("pointerup")
           clearInterval(gameState.timeInterval)
           gameState.reset = this.add.text(180, 310, `Game Over Score is ${gameState.score} Click to Play again`, { fontSize: "20px", fill: '#000000' });
           gameState.reset.setInteractive()
@@ -593,8 +595,6 @@ class Game extends Phaser.Scene {
             this.scene.restart()
           })
           this.physics.pause()
-          // this.scene.stop('Game')
-          // this.scene.start('Landing')
           gameState.lives = 3
         }
         genFrog()
@@ -621,14 +621,16 @@ class Game extends Phaser.Scene {
         gameState.lives -= 1
         gameState.livesLeft.setText(`Lives: ${gameState.lives}`)
         gameState.frogSplashSound.play()
-        console.log(gameState.lives)
-      
         if(gameState.lives === 0) {
           gameState.playingSound.stop()
           this.input.keyboard.off('keyup_LEFT')
           this.input.keyboard.off('keyup_RIGHT')
           this.input.keyboard.off('keyup_UP')
           this.input.keyboard.off('keyup_DOWN')
+          gameState.upButton.off("pointerup")
+          gameState.downButton.off("pointerup")
+          gameState.leftButton.off("pointerup")
+          gameState.rightButton.off("pointerup")
           clearInterval(gameState.timeInterval)
           gameState.reset = this.add.text(180, 310, `Game Over Score is ${gameState.score} Click to Play again`, { fontSize: "20px", fill: '#000000' });
           gameState.reset.setInteractive()
@@ -645,8 +647,6 @@ class Game extends Phaser.Scene {
             this.scene.restart()
           })
           this.physics.pause()
-          // this.scene.stop('Game')
-          // this.scene.start('Landing')
           gameState.lives = 3
         }
         genFrog()
@@ -673,14 +673,16 @@ class Game extends Phaser.Scene {
         gameState.lives -= 1
         gameState.livesLeft.setText(`Lives: ${gameState.lives}`)
         gameState.frogSplashSound.play()
-        console.log(gameState.lives)
-      
         if(gameState.lives === 0) {
           gameState.playingSound.stop()
           this.input.keyboard.off('keyup_LEFT')
           this.input.keyboard.off('keyup_RIGHT')
           this.input.keyboard.off('keyup_UP')
           this.input.keyboard.off('keyup_DOWN')
+          gameState.upButton.off("pointerup")
+          gameState.downButton.off("pointerup")
+          gameState.leftButton.off("pointerup")
+          gameState.rightButton.off("pointerup")
           clearInterval(gameState.timeInterval)
           gameState.reset = this.add.text(180, 310, `Game Over Score is ${gameState.score} Click to Play again`, { fontSize: "20px", fill: '#000000' });
           gameState.reset.setInteractive()
@@ -697,8 +699,6 @@ class Game extends Phaser.Scene {
             this.scene.restart()
           })
           this.physics.pause()
-          // this.scene.stop('Game')
-          // this.scene.start('Landing')
           gameState.lives = 3
         }
         genFrog()
@@ -767,6 +767,10 @@ class Game extends Phaser.Scene {
           this.input.keyboard.off('keyup_RIGHT')
           this.input.keyboard.off('keyup_UP')
           this.input.keyboard.off('keyup_DOWN')
+          gameState.upButton.off("pointerup")
+          gameState.downButton.off("pointerup")
+          gameState.leftButton.off("pointerup")
+          gameState.rightButton.off("pointerup")
           clearInterval(gameState.timeInterval)
           gameState.reset = this.add.text(180, 310, `Game Over Score is ${gameState.score} Click to Play again`, { fontSize: "20px", fill: '#000000' });
           gameState.reset.setInteractive()
@@ -783,8 +787,6 @@ class Game extends Phaser.Scene {
             this.scene.restart()
           })
         this.physics.pause()
-        // this.scene.stop('Game')
-        // this.scene.start('Landing')
         gameState.lives = 3
       }
     }.bind(this));
@@ -813,7 +815,6 @@ class Game extends Phaser.Scene {
       callbackScope: this,
       loop: true
     });
-
     this.physics.add.collider(frogs, vehicles2, function(frog, vehicle) {
       gameState.frogSquashSound.play()
       frog.destroy()
@@ -834,6 +835,10 @@ class Game extends Phaser.Scene {
           this.input.keyboard.off('keyup_RIGHT')
           this.input.keyboard.off('keyup_UP')
           this.input.keyboard.off('keyup_DOWN')
+          gameState.upButton.off("pointerup")
+          gameState.downButton.off("pointerup")
+          gameState.leftButton.off("pointerup")
+          gameState.rightButton.off("pointerup")
           clearInterval(gameState.timeInterval)
           gameState.reset = this.add.text(180, 310, `Game Over Score is ${gameState.score} Click to Play again`, { fontSize: "20px", fill: '#000000' });
           gameState.reset.setInteractive()
@@ -850,8 +855,6 @@ class Game extends Phaser.Scene {
             this.scene.restart()
           })
         this.physics.pause()
-        // this.scene.stop('Game')
-        // this.scene.start('Landing')
         gameState.lives = 3
       }
     }.bind(this));
@@ -901,6 +904,10 @@ class Game extends Phaser.Scene {
           this.input.keyboard.off('keyup_RIGHT')
           this.input.keyboard.off('keyup_UP')
           this.input.keyboard.off('keyup_DOWN')
+          gameState.upButton.off("pointerup")
+          gameState.downButton.off("pointerup")
+          gameState.leftButton.off("pointerup")
+          gameState.rightButton.off("pointerup")
           clearInterval(gameState.timeInterval)
           gameState.reset = this.add.text(180, 310, `Game Over Score is ${gameState.score} Click to Play again`, { fontSize: "20px", fill: '#000000' });
           gameState.reset.setInteractive()
@@ -917,8 +924,6 @@ class Game extends Phaser.Scene {
             this.scene.restart()
           })
         this.physics.pause()
-        // this.scene.stop('Game')
-        // this.scene.start('Landing')
         gameState.lives = 3
       }
     }.bind(this));
@@ -968,6 +973,10 @@ class Game extends Phaser.Scene {
           this.input.keyboard.off('keyup_RIGHT')
           this.input.keyboard.off('keyup_UP')
           this.input.keyboard.off('keyup_DOWN')
+          gameState.upButton.off("pointerup")
+          gameState.downButton.off("pointerup")
+          gameState.leftButton.off("pointerup")
+          gameState.rightButton.off("pointerup")
           clearInterval(gameState.timeInterval)
           gameState.reset = this.add.text(180, 310, `Game Over Score is ${gameState.score} Click to Play again`, { fontSize: "20px", fill: '#000000' });
           gameState.reset.setInteractive()
@@ -984,8 +993,6 @@ class Game extends Phaser.Scene {
             this.scene.restart()
           })
         this.physics.pause()
-        // this.scene.stop('Game')
-        // this.scene.start('Landing')
         gameState.lives = 3
       }
     }.bind(this));
@@ -1035,6 +1042,10 @@ class Game extends Phaser.Scene {
           this.input.keyboard.off('keyup_RIGHT')
           this.input.keyboard.off('keyup_UP')
           this.input.keyboard.off('keyup_DOWN')
+          gameState.upButton.off("pointerup")
+          gameState.downButton.off("pointerup")
+          gameState.leftButton.off("pointerup")
+          gameState.rightButton.off("pointerup")
           clearInterval(gameState.timeInterval)
           gameState.reset = this.add.text(180, 310, `Game Over Score is ${gameState.score} Click to Play again`, { fontSize: "20px", fill: '#000000' });
           gameState.reset.setInteractive()
@@ -1051,8 +1062,6 @@ class Game extends Phaser.Scene {
             this.scene.restart()
           })
         this.physics.pause()
-        // this.scene.stop('Game')
-        // this.scene.start('Landing')
         gameState.lives = 3
       }
     }.bind(this));
@@ -1061,8 +1070,6 @@ class Game extends Phaser.Scene {
       vehicle1.destroy()
       vehicle2.destroy()
       if( (vehicle1.x > 0 && vehicle1.x < 800) || (vehicle2.x > 0 && vehicle2.x < 800)) {
-        console.log("collision ",vehicle1.x)
-        console.log("collision ",vehicle2.x)
         let explosion1 = this.add.image(vehicle1.x, vehicle1.y, "explosion")
         explosion1.displayWidth = 800*.1
         explosion1.displayHeight = carLogHeight
@@ -1081,8 +1088,6 @@ class Game extends Phaser.Scene {
       vehicle1.destroy()
       vehicle2.destroy()
       if( (vehicle1.x > 0 && vehicle1.x < 800) || (vehicle2.x > 0 && vehicle2.x < 800)) {
-        console.log("collision ",vehicle1.x)
-        console.log("collision ",vehicle2.x)
         let explosion1 = this.add.image(vehicle1.x, vehicle1.y, "explosion")
         explosion1.displayWidth = 800*.1
         explosion1.displayHeight = carLogHeight
@@ -1101,8 +1106,6 @@ class Game extends Phaser.Scene {
       vehicle1.destroy()
       vehicle2.destroy()
       if( (vehicle1.x > 0 && vehicle1.x < 800) || (vehicle2.x > 0 && vehicle2.x < 800)) {
-        console.log("collision ",vehicle1.x)
-        console.log("collision ",vehicle2.x)
         let explosion1 = this.add.image(vehicle1.x, vehicle1.y, "explosion")
         explosion1.displayWidth = 800*.1
         explosion1.displayHeight = carLogHeight
@@ -1121,8 +1124,6 @@ class Game extends Phaser.Scene {
       vehicle1.destroy()
       vehicle2.destroy()
       if( (vehicle1.x > 0 && vehicle1.x < 800) || (vehicle2.x > 0 && vehicle2.x < 800)) {
-        console.log("collision ",vehicle1.x)
-        console.log("collision ",vehicle2.x)
         let explosion1 = this.add.image(vehicle1.x, vehicle1.y, "explosion")
         explosion1.displayWidth = 800*.1
         explosion1.displayHeight = carLogHeight
@@ -1141,8 +1142,6 @@ class Game extends Phaser.Scene {
       vehicle1.destroy()
       vehicle2.destroy()
       if( (vehicle1.x > 0 && vehicle1.x < 800) || (vehicle2.x > 0 && vehicle2.x < 800)) {
-        console.log("collision  ",vehicle1.x)
-        console.log("collision ",vehicle2.x)
         let explosion1 = this.add.image(vehicle1.x, vehicle1.y, "explosion")
         explosion1.displayWidth = 800*.1
         explosion1.displayHeight = carLogHeight
@@ -1268,20 +1267,19 @@ class Game extends Phaser.Scene {
 
   gameState.timeInterval =  setInterval(function() {
       gameState.time --
-      gameState.displayTime.setText(`Time: ${gameState.time}`)
-      console.log(gameState.time)
       if(gameState.time < 10) {
         gameState.timeRunningOut.play()
+        gameState.displayTime.setText(`Time: ${gameState.time}`)
+      } else {
+        gameState.displayTime.setText(`Time: ${gameState.time}`)
       }
       if(gameState.time === 0) {
-        console.log("gameover")
         gameState.frog.destroy()
         gameState.lives -= 1
         gameState.livesLeft.setText(`Lives: ${gameState.lives}`)
         gameState.frogSplashSound.play()
         gameState.time = 30
         genFrog()
-        console.log(gameState.lives)
       }
         if(gameState.lives === 0) {
           gameState.playingSound.stop()
@@ -1289,6 +1287,10 @@ class Game extends Phaser.Scene {
           this.input.keyboard.off('keyup_RIGHT')
           this.input.keyboard.off('keyup_UP')
           this.input.keyboard.off('keyup_DOWN')
+          gameState.upButton.off("pointerup")
+          gameState.downButton.off("pointerup")
+          gameState.leftButton.off("pointerup")
+          gameState.rightButton.off("pointerup")
           clearInterval(gameState.timeInterval)
           gameState.reset = this.add.text(180, 310, `Game Over Score is ${gameState.score} Click to Play again`, { fontSize: "20px", fill: '#000000' });
           gameState.reset.setInteractive()
@@ -1304,8 +1306,6 @@ class Game extends Phaser.Scene {
             }
             this.scene.restart()
           })
-          // this.scene.stop('Game')
-          // this.scene.start('Landing')
           this.physics.pause()
           gameState.lives = 3
           gameState.time = 30
@@ -1314,30 +1314,184 @@ class Game extends Phaser.Scene {
           genFrog()
           return
         }
-        
-        
-      
 
-        // gameState.playingSound.stop()
-        
-        // this.input.keyboard.off('keyup_LEFT')
-        // this.input.keyboard.off('keyup_RIGHT')
-        // this.input.keyboard.off('keyup_UP')
-        // this.input.keyboard.off('keyup_DOWN')
-        // clearInterval(gameState.timeInterval)
-        // gameState.reset = this.add.text(180, 310, `Game Over Score is ${gameState.score} Click to Play again`, { fontSize: "20px", fill: '#000000' });
-        // this.physics.pause()
-
-        // gameState.time = 30
-        // gameState.lives = 3
-        // clearInterval(gameState.timeInterval)
-      // }
     }.bind(this), 1000)
 
   gameState.livesLeft = this.add.text(270, 10, `Lives: ${gameState.lives}`)
   gameState.displayLevel = this.add.text(100, 10, `Level: ${gameState.level}`)
   gameState.displayScore = this.add.text(450, 10, `Score: ${gameState.score}`)
   gameState.displayTime = this.add.text(600, 10, `Time: ${gameState.time}`)
+
+  gameState.upButton = this.add.rectangle(710, 475, 50, 40,0x0000FF);
+  gameState.upButton.setDepth(10)
+  gameState.upButton.alpha = .45
+  gameState.upButton.setInteractive()
+  gameState.upButton.on("pointerup", () => {
+    gameState.frog.y -= rowHeight + 0.00001
+      gameState.currentX = gameState.frog.x 
+      setTimeout(() => {
+        gameState.frog.setTexture("idleFrog")
+      }, 70)
+      gameState.frog.setTexture("jumpUpDown")
+      this.time.addEvent({
+        delay: 30,
+        callback: fadePicture,
+        callbackScope: this,
+        loop: false
+      })
+      function fadePicture() {
+        if(gameState.frog.y < 297 ) {
+          if(gameState.currentX === gameState.frog.x) {
+            gameState.frogSplashSound.play()
+            let frogSplash = this.add.image(gameState.frog.x, gameState.frog.y, "frogSplash")
+            frogSplash.displayWidth = 800*.1
+            frogSplash.displayHeight = carLogHeight
+            frogSplash.setDepth(1)
+            setTimeout(() => {
+              frogSplash.destroy()
+            }, 500)
+            gameState.frog.destroy()
+            gameState.lives -= 1
+            gameState.livesLeft.setText(`Lives: ${gameState.lives}`)
+        
+        if(gameState.lives === 0) {
+          gameState.playingSound.stop()
+          this.input.keyboard.off('keyup_LEFT')
+          this.input.keyboard.off('keyup_RIGHT')
+          this.input.keyboard.off('keyup_UP')
+          this.input.keyboard.off('keyup_DOWN')
+          gameState.upButton.off("pointerup")
+          gameState.downButton.off("pointerup")
+          gameState.leftButton.off("pointerup")
+          gameState.rightButton.off("pointerup")
+          clearInterval(gameState.timeInterval)
+          this.physics.pause()
+          gameState.reset = this.add.text(180, 310, `Game Over Score is ${gameState.score} Click to Play again`, { fontSize: "20px", fill: '#000000' });
+          gameState.reset.setInteractive()
+          gameState.reset.on("pointerup", () => {
+            gameState = {
+              lives: 3,
+              score: 0,
+              level: 1,
+              candies: 0,
+              time: 60,
+              rightVelocity: 50,
+              leftVelocity: -50
+            }
+            this.scene.restart()
+          })
+          gameState.lives = 3
+        }
+        genFrog()
+        return
+          } else {
+            
+          }
+        }
+        
+      }
+      gameState.frogHopSound.play()
+  })
+
+  gameState.downButton = this.add.rectangle(710, 575, 50, 40,0x0000FF);
+  gameState.downButton.setDepth(10)
+  gameState.downButton.alpha = .45
+  gameState.downButton.setInteractive()
+  gameState.downButton.on("pointerup", () => {
+    gameState.frog.y += rowHeight + 0.00001
+      gameState.currentX = gameState.frog.x 
+      if(gameState.frog.y >= 578) {
+        gameState.frog.y = 578.56
+      }
+      gameState.frog.setTexture("jumpUpDown")
+      setTimeout(() => {
+        gameState.frog.setTexture("idleFrog")
+      }, 70)
+      this.time.addEvent({
+        delay: 30,
+        callback: fadePicture,
+        callbackScope: this,
+        loop: false
+      })
+      function fadePicture() {
+        if(gameState.frog.y < 297 ) {
+          if(gameState.currentX === gameState.frog.x) {
+            gameState.frogSplashSound.play()
+            let frogSplash = this.add.image(gameState.frog.x, gameState.frog.y, "frogSplash")
+            frogSplash.displayWidth = 800*.1
+            frogSplash.displayHeight = carLogHeight
+            frogSplash.setDepth(1)
+            setTimeout(() => {
+              frogSplash.destroy()
+            }, 500)
+            gameState.frog.destroy()
+            
+            gameState.lives -= 1
+            gameState.livesLeft.setText(`Lives: ${gameState.lives}`)
+        
+        if(gameState.lives === 0) {
+          gameState.playingSound.stop()
+          this.input.keyboard.off('keyup_LEFT')
+          this.input.keyboard.off('keyup_RIGHT')
+          this.input.keyboard.off('keyup_UP')
+          this.input.keyboard.off('keyup_DOWN')
+          gameState.upButton.off("pointerup")
+          gameState.downButton.off("pointerup")
+          gameState.leftButton.off("pointerup")
+          gameState.rightButton.off("pointerup")
+          clearInterval(gameState.timeInterval)
+          gameState.reset = this.add.text(180, 310, `Game Over Score is ${gameState.score} Click to Play again`, { fontSize: "20px", fill: '#000000' });
+          gameState.reset.setInteractive()
+          gameState.reset.on("pointerup", () => {
+            gameState = {
+              lives: 3,
+              score: 0,
+              level: 1,
+              candies: 0,
+              time: 60,
+              rightVelocity: 50,
+              leftVelocity: -50
+            }
+            this.scene.restart()
+          })
+          this.physics.pause()
+          gameState.lives = 3
+        }
+        genFrog()
+        return
+          } else {
+          }
+        }
+        
+      }
+      gameState.frogHopSound.play()
+  })
+
+  gameState.leftButton = this.add.rectangle(660, 525, 50, 40, 0x0000FF);
+  gameState.leftButton.setDepth(10)
+  gameState.leftButton.alpha = .45
+  gameState.leftButton.setInteractive()
+  gameState.leftButton.on("pointerup", () => {
+    gameState.frog.x -= rowHeight - 10
+    gameState.frog.setTexture("jumpLeft")
+    setTimeout(() => {
+      gameState.frog.setTexture("idleFrog")
+    }, 70)
+    gameState.frogHopSound.play()
+  })
+
+  gameState.rightButton = this.add.rectangle(760, 525, 50, 40, 0x0000FF);
+  gameState.rightButton.setDepth(10)
+  gameState.rightButton.alpha = .45
+  gameState.rightButton.setInteractive()
+  gameState.rightButton.on("pointerup", () => {
+    gameState.frog.x += rowHeight - 10
+    gameState.frog.setTexture("jumpRight")
+    setTimeout(() => {
+      gameState.frog.setTexture("idleFrog")
+    }, 70)
+    gameState.frogHopSound.play()
+  })
 
   }
   update() {
