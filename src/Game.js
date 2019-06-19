@@ -26,7 +26,10 @@ import scoreBg from "./assets/images/scoreBg.jpg"
 import candy from "./assets/images/candy.png"
 
 // frog
-import frog from "./assets/images/froger-sprite.png"
+import idleFrog from "./assets/images/idleFrog.png"
+import jumpLeft from "./assets/images/jumpLeft.png"
+import jumpRight from "./assets/images/jumpRight.png"
+import jumpUpDown from "./assets/images/jumpUpDown.png"
 
 // explosion
 import explosion from "./assets/images/explosion.png"
@@ -84,7 +87,10 @@ class Game extends Phaser.Scene {
     this.load.image("scoreBg", scoreBg)
     this.load.image("candy", candy)
     this.load.image("explosion", explosion)
-    this.load.spritesheet('frog', frog, { frameWidth: 40, frameHeight: 90 });
+    this.load.image("idleFrog", idleFrog)
+    this.load.image("jumpLeft", jumpLeft)
+    this.load.image("jumpRight", jumpRight)
+    this.load.image("jumpUpDown", jumpUpDown)
   
     this.load.audio("playingSound", playingSound)
     this.load.audio("frogHopSound", frogHopSound)
@@ -161,7 +167,7 @@ class Game extends Phaser.Scene {
 
     const frogs = this.physics.add.group();
     function genFrog() {
-      gameState.frog = frogs.create(400, 13 * rowHeight + halfRowHeight, "frog")
+      gameState.frog = frogs.create(400, 13 * rowHeight + halfRowHeight, "idleFrog")
       gameState.frog.displayWidth=800*.05; 
       gameState.frog.displayHeight= carLogHeight;
       gameState.frog.setDepth(3)
@@ -170,17 +176,29 @@ class Game extends Phaser.Scene {
     
     this.input.keyboard.on('keyup_LEFT', function (event) {
       gameState.frog.x -= rowHeight - 10
+      gameState.frog.setTexture("jumpLeft")
+      setTimeout(() => {
+        gameState.frog.setTexture("idleFrog")
+      }, 70)
       gameState.frogHopSound.play()
-      gameState.exampleSprite.anims.play('movement', false);
     })
     this.input.keyboard.on('keyup_RIGHT', function (event) {
       gameState.frog.x += rowHeight - 10
+      gameState.frog.setTexture("jumpRight")
+      setTimeout(() => {
+        gameState.frog.setTexture("idleFrog")
+      }, 70)
       gameState.frogHopSound.play()
     })
 
     this.input.keyboard.on('keyup_DOWN', (event) => {
       gameState.frog.y += rowHeight + 0.00001
       gameState.currentX = gameState.frog.x 
+      
+      gameState.frog.setTexture("jumpUpDown")
+      setTimeout(() => {
+        gameState.frog.setTexture("idleFrog")
+      }, 70)
       this.time.addEvent({
         delay: 30,
         callback: fadePicture,
@@ -195,12 +213,6 @@ class Game extends Phaser.Scene {
             gameState.frog.destroy()
             gameState.lives -= 1
             gameState.livesLeft.setText(`Lives ${gameState.lives}`)
-            // genFrog()
-            // frog.destroy()
-        // gameState.lives -= 1
-        // gameState.livesLeft.setText(`Lives ${gameState.lives}`)
-        // gameState.frogSplashSound.play()
-        // console.log(gameState.lives)
         
         if(gameState.lives === 0) {
           gameState.playingSound.stop()
@@ -223,6 +235,10 @@ class Game extends Phaser.Scene {
     this.input.keyboard.on('keyup_UP', (event) => {
       gameState.frog.y -= rowHeight + 0.00001
       gameState.currentX = gameState.frog.x 
+      setTimeout(() => {
+        gameState.frog.setTexture("idleFrog")
+      }, 70)
+      gameState.frog.setTexture("jumpUpDown")
       this.time.addEvent({
         delay: 30,
         callback: fadePicture,
@@ -237,11 +253,6 @@ class Game extends Phaser.Scene {
             gameState.frog.destroy()
             gameState.lives -= 1
             gameState.livesLeft.setText(`Lives ${gameState.lives}`)
-            // gameState.frog.destroy()
-        // gameState.lives -= 1
-        // gameState.livesLeft.setText(`Lives ${gameState.lives}`)
-        // gameState.frogSplashSound.play()
-        // console.log(gameState.lives)
         
         if(gameState.lives === 0) {
           gameState.playingSound.stop()
@@ -251,7 +262,6 @@ class Game extends Phaser.Scene {
         }
         genFrog()
         return
-            // genFrog()
           } else {
             console.log("on log")
             
@@ -353,8 +363,6 @@ class Game extends Phaser.Scene {
       callbackScope: this,
       loop: true
     });
-
-    // genLogs1()
 
     genFrog()
 
@@ -945,16 +953,6 @@ class Game extends Phaser.Scene {
   gameState.displayLevel = this.add.text(100, 10, `Level: ${gameState.level}`)
   gameState.displayScore = this.add.text(450, 10, `Score: ${gameState.score}`)
   gameState.displayTime = this.add.text(600, 10, `Time: ${gameState.time}`)
-
-  gameState.exampleSprite = this.physics.add.sprite(500, 600, 'frog');
-
-  this.anims.create({
-    key: 'movement',
-    frames: this.anims.generateFrameNumbers('frog', { start: 0, end: 5 }),
-    frameRate: 10,
-    repeat: 0
-  });
-// }
 
   }
   update() {
