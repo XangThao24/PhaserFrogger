@@ -212,8 +212,8 @@ class Game extends Phaser.Scene {
         loop: false
       })
       function fadePicture() {
-        if(gameState.frog.y < 297 ) {
-          if(gameState.currentX === gameState.frog.x) {
+        if(gameState.frog.y < 298 ) {
+          if(gameState.currentX === gameState.frog.y) {
             gameState.frogSplashSound.play()
             let frogSplash = this.add.image(gameState.frog.x, gameState.frog.y, "frogSplash")
             frogSplash.displayWidth = 800*.1
