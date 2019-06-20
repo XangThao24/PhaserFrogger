@@ -268,50 +268,6 @@ class Game extends Phaser.Scene {
     this.input.keyboard.on('keyup_UP', (event) => {
       gameState.frog.y -= rowHeight + 0.00001
       gameState.currentX = gameState.frog.x 
-      // console.log("frog y",gameState.frog.y)
-      if(gameState.frog.y < 65) {
-        gameState.frogSquashSound.play()
-      gameState.frog.destroy()
-      let frogBlood = this.add.image(gameState.frog.x, gameState.frog.y, "frogVehicleCollision")
-        frogBlood.displayWidth = 800*.1
-        frogBlood.displayHeight = carLogHeight
-        frogBlood.setDepth(6)
-        setTimeout(() => {
-          frogBlood.destroy()
-        }, 500)
-      genFrog()
-      gameState.lives -= 1
-      gameState.livesLeft.setText(`Lives: ${gameState.lives}`)
-      
-      if(gameState.lives === 0) {
-        gameState.playingSound.stop()
-        this.input.keyboard.off('keyup_LEFT')
-          this.input.keyboard.off('keyup_RIGHT')
-          this.input.keyboard.off('keyup_UP')
-          this.input.keyboard.off('keyup_DOWN')
-          gameState.upButton.off("pointerup")
-          gameState.downButton.off("pointerup")
-          gameState.leftButton.off("pointerup")
-          gameState.rightButton.off("pointerup")
-          clearInterval(gameState.timeInterval)
-          gameState.reset = this.add.text(180, 310, `Game Over Score is ${gameState.score} Click to Play again`, { fontSize: "20px", fill: '#000000' });
-          gameState.reset.setInteractive()
-          gameState.reset.on("pointerup", () => {
-            gameState = {
-              lives: 3,
-              score: 0,
-              level: 1,
-              candies: 0,
-              time: 60,
-              rightVelocity: 50,
-              leftVelocity: -50
-            }
-            this.scene.restart()
-          })
-        this.physics.pause()
-        gameState.lives = 3
-      }
-      }
       setTimeout(() => {
         gameState.frog.setTexture("idleFrog")
       }, 70)
@@ -326,6 +282,15 @@ class Game extends Phaser.Scene {
         if(gameState.frog.y < 297 ) {
           if(gameState.currentX === gameState.frog.x) {
             gameState.frogSplashSound.play()
+            if(gameState.frog.y < 65 ){
+              let frogBlood = this.add.image(gameState.frog.x, gameState.frog.y, "frogVehicleCollision")
+              frogBlood.displayWidth = 800*.1
+              frogBlood.displayHeight = carLogHeight
+              frogBlood.setDepth(7)
+              setTimeout(() => {
+                frogBlood.destroy()
+              }, 500)
+            }
             let frogSplash = this.add.image(gameState.frog.x, gameState.frog.y, "frogSplash")
             frogSplash.displayWidth = 800*.1
             frogSplash.displayHeight = carLogHeight
@@ -372,6 +337,7 @@ class Game extends Phaser.Scene {
         }
         
       }
+      
       gameState.frogHopSound.play()
     })
    
@@ -1615,7 +1581,6 @@ class Game extends Phaser.Scene {
     gameState.frogHopSound.play()
   })
 
-  console.log("widht", this.width)
   }
   update() {
 
