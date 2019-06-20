@@ -1322,7 +1322,7 @@ class Game extends Phaser.Scene {
   gameState.displayScore = this.add.text(450, 10, `Score: ${gameState.score}`)
   gameState.displayTime = this.add.text(600, 10, `Time: ${gameState.time}`)
 
-  gameState.upButton = this.add.rectangle(710, 475, 50, 40,0x0000FF);
+  gameState.upButton = this.add.rectangle(660, 400, 80, 70,0x0000FF);
   gameState.upButton.setDepth(10)
   gameState.upButton.alpha = .45
   gameState.upButton.setInteractive()
@@ -1393,7 +1393,7 @@ class Game extends Phaser.Scene {
       gameState.frogHopSound.play()
   })
 
-  gameState.downButton = this.add.rectangle(710, 575, 50, 40,0x0000FF);
+  gameState.downButton = this.add.rectangle(660, 560, 80, 70,0x0000FF);
   gameState.downButton.setDepth(10)
   gameState.downButton.alpha = .45
   gameState.downButton.setInteractive()
@@ -1467,7 +1467,7 @@ class Game extends Phaser.Scene {
       gameState.frogHopSound.play()
   })
 
-  gameState.leftButton = this.add.rectangle(660, 525, 50, 40, 0x0000FF);
+  gameState.leftButton = this.add.rectangle(580, 480, 80, 70, 0x0000FF);
   gameState.leftButton.setDepth(10)
   gameState.leftButton.alpha = .45
   gameState.leftButton.setInteractive()
@@ -1480,7 +1480,7 @@ class Game extends Phaser.Scene {
     gameState.frogHopSound.play()
   })
 
-  gameState.rightButton = this.add.rectangle(760, 525, 50, 40, 0x0000FF);
+  gameState.rightButton = this.add.rectangle(740, 480, 80, 70, 0x0000FF);
   gameState.rightButton.setDepth(10)
   gameState.rightButton.alpha = .45
   gameState.rightButton.setInteractive()
